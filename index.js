@@ -1,10 +1,9 @@
-// ===== MENU RESPONSIVO =====
+// ===== MENU RESPONSIVO ====   
 function toggleMenu() {
     const navMenu = document.getElementById("navMenu");
     navMenu.classList.toggle("show");
 }
 
-// ===== ROLAGEM SUAVE ENTRE SEÇÕES =====
 document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener("click", function (e) {
         e.preventDefault();
@@ -18,26 +17,25 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
     });
 });
 
-// ===== MENSAGEM DE CONFIRMAÇÃO DO FORMULÁRIO =====
+
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("form");
     if (form) {
         form.addEventListener("submit", e => {
             e.preventDefault();
 
-            // Captura o nome digitado
+
             const nome = document.getElementById("nome").value.trim();
 
-            // Exibe uma mensagem de agradecimento
+
             alert(`Obrigado por se cadastrar, ${nome || "voluntário"}! 🌿\nEm breve entraremos em contato.`);
 
-            // Limpa o formulário
             form.reset();
         });
     }
 });
 
-// ===== ANIMAÇÃO DOS CARDS AO ROLAR A PÁGINA =====
+
 document.addEventListener("scroll", () => {
     const cards = document.querySelectorAll(".card-item");
     const trigger = window.innerHeight * 0.85;
