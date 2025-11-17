@@ -316,7 +316,6 @@
     </footer>
 
     <script>
-        // O script foi alterado de type="module" para script padrão.
 
         let phoneMask, cnpjMask; 
         const activeClass = "bg-white text-primary shadow-lg ring-2 ring-primary/50 dark:bg-gray-700 dark:text-primary";
@@ -350,7 +349,6 @@
             document.getElementById('main-content').setAttribute('aria-hidden', 'false');
         }
 
-        // REMOVIDA: A função initializeFirebase foi removida
         
         function setupMasks() {
             
@@ -369,7 +367,6 @@
             });
         }
 
-        // NOVA LÓGICA: Atualizado para salvar no localStorage
         window.handleSubmit = function(event) {
             event.preventDefault();
             const form = event.target;
@@ -377,15 +374,14 @@
             const isBusiness = document.getElementById('individual-fields').classList.contains('hidden');
             const type = isBusiness ? 'business' : 'individual';
 
-            // 1. Validação de Termos
             if (!document.getElementById('terms').checked) {
                 showMessage("Erro de Validação", "Você deve concordar com os Termos de Serviço para continuar.", false);
                 return;
             }
 
-            // 2. Coleta de Dados
+
             const data = {
-                id: crypto.randomUUID(), // Gera um ID único local
+                id: crypto.randomUUID(),
                 type: type,
                 name: formData.get('name'),
                 email: formData.get('email'),
@@ -394,7 +390,6 @@
                 timestamp: new Date().toISOString(),
             };
             
-            // 3. Validação Específica e Adição de Campos
             if (data.phone.length < 10) {
                 showMessage("Erro de Validação", "Por favor, insira um Telefone completo (DDD + Número).", false);
                 return;
@@ -418,15 +413,12 @@
                 }
             }
             
-            // 4. Lógica de Salvamento (Simulada via LocalStorage)
             try {
-                // Puxa registros existentes ou inicializa um array vazio
                 const registrations = JSON.parse(localStorage.getItem('registrations')) || [];
                 
-                // Adiciona o novo registro
                 registrations.push(data);
                 
-                // Salva o array atualizado
+                
                 localStorage.setItem('registrations', JSON.stringify(registrations));
 
                 console.log("Cadastro salvo localmente:", data);
@@ -596,13 +588,12 @@
             }
         }
 
-        // Lógicas a serem executadas quando o DOM estiver pronto
         document.addEventListener('DOMContentLoaded', () => {
             setupMasks();
             updateLoginStatus();
             window.switchFormType('individual'); 
 
-            // Lógica do Tema (Dark/Light)
+
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const savedTheme = localStorage.getItem('theme');
             let dark = savedTheme === 'dark' || (!savedTheme && prefersDark);
@@ -610,7 +601,6 @@
             if (dark) document.documentElement.classList.add('dark');
             updateIcon(dark);
 
-            // Fechar modal de login ao clicar fora
             const loginModal = document.getElementById('loginModal');
             if (loginModal) {
                 loginModal.addEventListener('click', (e) => {
