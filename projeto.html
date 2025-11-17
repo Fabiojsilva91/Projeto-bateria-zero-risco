@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projetos | Bateria Zero Risco</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Configuração de fonte padrão e cores para contraste */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        
+        :root {
+            --color-primary: #10B981; /* Verde Esmeralda (Claro) */
+            --color-secondary: #059669; /* Verde mais escuro (Escuro) */
+            --color-text-light: #0b0e11; /* Cinza escuro */
+            --color-text-dark: #cec4c4; /* Quase branco */
+            --color-bg-light: #242a30;
+            --color-bg-dark: #111827;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        /* Navegação por Teclado: Estilo do foco visível (WCAG 2.1.1) */
+        *:focus {
+            outline: 3px solid var(--color-primary);
+            outline-offset: 2px;    
+            border-radius: 4px;
+        }
+        .sr-only { /* Mantido para acessibilidade */
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        /* Estilo do Menu Hamburger (mobile) */
+        #navMenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        #navMenu.open {
+            max-height: 300px; /* Expande o menu no mobile */
+        }
+        
+        @media (min-width: 768px) {
+            #navMenu {
+                max-height: none !important;
+                overflow: visible !important;
+            }
+        }
+
+        /* Dark Mode */
+        .dark {
+            background-color: var(--color-bg-dark);
+            color: var(--color-text-dark);
+        }
+        .dark .bg-white { background-color: #1F2937 !important; } 
+        .dark header, .dark footer { background-color: #1F2937 !important; }
+        .dark .text-gray-900 { color: var(--color-text-dark) !important; }
+        .dark .text-gray-600 { color: #fdfeff !important; }
+        .dark .bg-gray-100 { background-color: #1F2937 !important; } 
+        .dark .text-secondary { color: var(--color-primary) !important; }
+
+        /* Estilo do Modal de Login */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            display: none;
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.open {
+            display: flex;
+        }
+    </style>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': 'var(--color-primary)',
+                        'secondary': 'var(--color-secondary)',
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50 text-gray-900 min-h-screen transition-colors duration-300">
+
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
+            <a href="#main-content" class="sr-only focus:not-sr-only p-2 text-sm text-primary underline">Ir para o Conteúdo Principal</a>
+            <div class="text-2xl font-bold text-secondary">Bateria Zero Risco</div>
+            
+            <nav aria-label="Navegação Principal" class="flex items-center">
+                
+                <button class="menu-toggle md:hidden p-2 rounded-lg text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" onclick="toggleMenu()" aria-expanded="false" aria-controls="navMenu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    <span class="sr-only">Abrir/Fechar Menu Principal</span> 
+                </button>
+                
+                <ul id="navMenu" class="absolute md:static top-full left-0 w-full md:w-auto bg-white dark:bg-gray-800 md:bg-transparent shadow-lg md:shadow-none transition-all duration-300 ease-in-out md:flex md:space-x-4">
+                    <li class="p-4 md:p-0"><a href="index.html" class="text-gray-600 hover:text-primary block md:inline">Início</a></li>
+                    <li class="p-4 md:p-0"><a href="projetos.html" class="text-primary font-semibold hover:underline block md:inline" aria-current="page">Nossos Projetos</a></li>
+                    <li class="p-4 md:p-0"><a href="cadastro.html" class="text-gray-600 hover:text-primary block md:inline">Faça parte você também!</a></li>
+                    
+                    <li class="p-4 md:p-0" id="login-btn-container">
+                        <button onclick="openLoginModal()" class="text-gray-600 hover:text-primary block md:inline font-semibold">Login</button>
+                    </li>
+                    
+                    <li class="p-4 md:p-0 hidden" id="logout-btn-container">
+                        <button onclick="logOut()" class="text-red-500 hover:text-red-700 block md:inline font-semibold">Sair</button>
+                    </li>
+                </ul>
+
+                <button id="theme-toggle" class="ml-4 p-2 rounded-full text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 focus:ring-2 focus:ring-primary" aria-label="Alternar para modo escuro/claro" onclick="toggleTheme()">
+                    <svg id="theme-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content" tabindex="-1" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <section class="projetos mb-12">
+            <h1 class="text-4xl font-extrabold mb-8 text-secondary dark:text-primary text-center">Nossos Projetos</h1>
+            <div class="cards grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card bg-white dark:bg-[#1F2937] p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-100 dark:border-gray-800">
+                    <h3 class="text-2xl font-semibold text-primary mb-3">Reflorestar</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Projeto voltado ao plantio de árvores em áreas degradadas e educação ambiental nas escolas.</p>
+                </div>
+                <div class="card bg-white dark:bg-[#1F2937] p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-100 dark:border-gray-800">
+                    <h3 class="text-2xl font-semibold text-primary mb-3">Sopão Solidário</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Distribuição de refeições a pessoas em situação de vulnerabilidade social.</p>
+                </div>
+                <div class="card bg-white dark:bg-[#1F2937] p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-100 dark:border-gray-800">
+                    <h3 class="text-2xl font-semibold text-primary mb-3">Doar é Amar</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Campanhas de arrecadação de roupas, alimentos e brinquedos durante todo o ano.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="galeria py-12">
+            <h2 class="text-3xl font-bold mb-8 text-center border-b-2 border-primary pb-2">Galeria de Imagens</h2>
+            <div class="galeria-grid grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <img src="https://picsum.photos/400/250?random=1" alt="Foto 1" class="rounded-lg shadow-md w-full h-full object-cover">
+                <img src="https://picsum.photos/400/250?random=2" alt="Foto 2" class="rounded-lg shadow-md w-full h-full object-cover">
+                <img src="https://picsum.photos/400/250?random=3" alt="Foto 3" class="rounded-lg shadow-md w-full h-full object-cover">
+                <img src="https://picsum.photos/400/250?random=4" alt="Foto 4" class="rounded-lg shadow-md w-full h-full object-cover">
+                <img src="https://picsum.photos/400/250?random=5" alt="Foto 5" class="rounded-lg shadow-md w-full h-full object-cover">
+                <img src="https://picsum.photos/400/250?random=6" alt="Foto 6" class="rounded-lg shadow-md w-full h-full object-cover">
+                <img src="https://picsum.photos/400/250?random=7" alt="Foto 7" class="rounded-lg shadow-md w-full h-full object-cover">
+                <img src="https://picsum.photos/400/250?random=8" alt="Foto 8" class="rounded-lg shadow-md w-full h-full object-cover">
+            </div>
+        </section>
+    </main>
+
+    <footer id="contato" class="bg-gray-800 text-gray-300 py-6 mt-12 dark:bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h3 class="text-xl font-bold mb-2 text-white">Entre em Contato</h3>
+            <p><strong>Email:</strong> contato@ongficticia.org</p>
+            <p><strong>Telefone:</strong> (11) 99999-9999</p>
+            <p><strong>Doações:</strong> Chave PIX - 11.111.111/0001-11</p>
+            <p class="copy mt-4">&copy; 2025 Bateria Zero Risco - Todos os direitos reservados.
+                <br>
+                <a href="#" class="text-primary hover:text-green-400 underline">Política de Privacidade e Acessibilidade</a>
+            </p>
+        </div>
+    </footer>
+
+    <div id="loginModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="bg-white dark:bg-[#1F2937] p-8 rounded-xl shadow-2xl w-full max-w-sm relative mx-4">
+            
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" aria-label="Fechar formulário de Login">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <h2 id="modal-title" class="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">Acesso do Usuário</h2>
+            
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Usuário</label>
+                    <input type="text" id="username" name="username" required 
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                            placeholder="Ex: admin, doador, voluntario">
+                </div>
+                
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Senha</label>
+                    <input type="password" id="password" name="password" required 
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                            placeholder="Ex: admin123, doador123">
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition duration-150">
+                        Entrar
+                    </button>
+                </div>
+                
+                <p id="loginFeedback" class="text-center text-sm font-medium text-red-500"></p>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+       
+        function rolarParaContato() {
+            document.getElementById("contato").scrollIntoView({ behavior: "smooth" });
+        }
+
+        
+        function toggleMenu() {
+            const menu = document.getElementById('navMenu');
+            const button = document.querySelector('.menu-toggle');
+            const isExpanded = button.getAttribute('aria-expanded') === 'true';
+            menu.classList.toggle('open'); 
+            button.setAttribute('aria-expanded', !isExpanded);
+        }
+
+       
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.classList.contains('dark');
+            
+            if (isDark) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+            updateIcon(!isDark);
+        }
+
+       
+        function updateIcon(isDark) {
+            const iconContainer = document.getElementById('theme-icon');
+            if (iconContainer) {
+                iconContainer.innerHTML = isDark 
+                    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>' // Moon
+                    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>'; // Sun
+            }
+        }
+        
+      
+        function openLoginModal() {
+            document.getElementById('loginModal').classList.add('open');
+            document.getElementById('username').focus();
+        }
+
+        
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.remove('open');
+        }
+
+        
+        function updateLoginStatus() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const loginBtn = document.getElementById('login-btn-container');
+            const logoutBtn = document.getElementById('logout-btn-container');
+            
+            if (loginBtn && logoutBtn) {
+                if (isLoggedIn) {
+                    loginBtn.classList.add('hidden');
+                    logoutBtn.classList.remove('hidden');
+                } else {
+                    loginBtn.classList.remove('hidden');
+                    logoutBtn.classList.add('hidden');
+                }
+            }
+        }
+        
+       
+        function logOut() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('currentUser');
+            updateLoginStatus();
+            alert("Logout efetuado com sucesso.");
+        }
+        
+        
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const user = document.getElementById('username').value.toLowerCase();
+            const pass = document.getElementById('password').value;
+            const feedback = document.getElementById('loginFeedback');
+            
+            const validUsers = {
+                "admin": "admin123",
+                "voluntario": "volun123",
+                "doador": "doador123",
+                "visitante": "visita123" 
+            };
+            
+            feedback.textContent = "";
+
+            if (validUsers[user] === pass) {
+                feedback.classList.remove('text-red-500');
+                feedback.classList.add('text-primary');
+                feedback.textContent = `Sucesso! Bem-vindo(a), ${user.charAt(0).toUpperCase() + user.slice(1)}.`;
+                
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', user);
+
+                setTimeout(() => {
+                    closeLoginModal();
+                    updateLoginStatus();
+                    alert(`Login efetuado com sucesso como: ${user.toUpperCase()}`);
+                }, 1000);
+
+            } else {
+                feedback.classList.remove('text-primary');
+                feedback.classList.add('text-red-500');
+                feedback.textContent = "Usuário ou Senha incorretos. Tente novamente.";
+            }
+        }
+        
+        
+        document.addEventListener('DOMContentLoaded', () => {
+        
+            updateLoginStatus(); 
+
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const savedTheme = localStorage.getItem('theme');
+            const html = document.documentElement;
+
+            let shouldBeDark = false;
+            if (savedTheme === 'dark') {
+                shouldBeDark = true;
+            } else if (savedTheme === null && prefersDark) {
+                shouldBeDark = true;
+            }
+
+            if (shouldBeDark) {
+                html.classList.add('dark');
+            }
+            updateIcon(shouldBeDark);
+            
+            // Lógica de acessibilidade para "Ir para o Conteúdo Principal"
+            const skipLink = document.querySelector('.sr-only.focus\\:not-sr-only');
+            if (skipLink) {
+                skipLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.getElementById('main-content').focus();
+                });
+            }
+            
+            // Fechar Modal ao clicar fora
+            const loginModal = document.getElementById('loginModal');
+            if (loginModal) {
+                loginModal.addEventListener('click', (e) => {
+                    if (e.target.id === 'loginModal') {
+                        closeLoginModal();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,493 @@
+/* ======================================= */
+/* 1. VARIÁVEIS CSS (Tokens de Design)     */
+/* ======================================= */
+:root {
+    /* Paleta de Cores */
+    --color-primary: #7CFC00;       /* Verde Limão - Cor Principal */
+    --color-secondary: #000000;     /* Preto - Cor Secundária/Fundo Escuro */
+    --color-background: #FFFFFF;    /* Branco - Fundo da Página */
+    --color-text: #000000;          /* Preto - Texto Principal */
+    --color-text-light: #FFFFFF;    /* Branco - Texto em Fundos Escuros */
+    --color-success: #006400;       /* Verde Escuro - Mensagens de Sucesso */
+    --color-hover: #4C9E00;         /* Verde Médio - Efeito Hover */
+
+    /* Outras Variáveis de Layout */
+    --header-height: 70px;          /* Altura do cabeçalho para ajuste do Hero */
+    --max-width: 1200px;
+}
+
+/* ======================================= */
+/* 2. BASE GERAL (Reset e Tipografia)      */
+/* ======================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* Usando fallback font-family moderna */
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    line-height: 1.6;
+    color: var(--color-text);
+    background-color: var(--color-background);
+}
+
+a {
+    text-decoration: none;
+    color: var(--color-primary);
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--color-hover);
+}
+
+/* ======================================= */
+/* 3. LAYOUT E ESTRUTURA                   */
+/* ======================================= */
+main {
+    padding: 0 2rem 4rem 2rem;
+    max-width: var(--max-width);
+    margin: 0 auto;
+}
+
+/* --- Header --- */
+header {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    color: var(--color-text-light);
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    height: var(--header-height);
+}
+
+nav {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    height: 100%; /* Garante que a nav ocupe a altura do header */
+}
+
+.site-title h1 {
+    font-size: 1.5rem;
+    color: var(--color-text-light);
+    margin: 0;
+}
+
+/* Menu Toggle - Botão Hamburguer */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--color-text-light);
+}
+
+/* --- Navegação Desktop --- */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul a {
+    color: var(--color-text-light);
+    text-decoration: none;
+    font-weight: 500;
+    opacity: 0.9;
+    padding-bottom: 5px;
+    position: relative;
+    display: inline-block;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
+}
+
+/* Efeito de Underline Neon/Glow */
+nav ul a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background-color: #88ff00;
+    box-shadow: 0 0 5px #010c0c,
+                0 0 10px #4ab647,
+                0 0 20px #33ff00;
+    transition: width 0.3s ease-out;
+}
+
+nav ul a:hover::after {
+    width: 100%;
+}
+
+nav ul a:hover,
+nav ul a.active {
+    /* CORRIGIDO/REVISADO: Para manter o contraste, geralmente o hover no menu fixo escuro deveria ser claro/glow. */
+    /* Deixei o efeito de glow/sombra, mas mantive a cor do texto clara para contraste */
+    color: var(--color-text-light);
+    text-shadow: 0 0 5px #91ff00, 0 0 10px #00ffff;
+    opacity: 1;
+    font-weight: 700;
+}
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--color-secondary);
+    margin-top: -1px;
+    color: var(--color-text-light);
+}
+
+/* ======================================= */
+/* 4. COMPONENTES: HERO E BOTÕES           */
+/* ======================================= */
+
+/* --- Seções Hero (Home/Geral) --- */
+.hero {
+    height: calc(100vh - var(--header-height));
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(124, 252, 0, 0.2)), url('caminho/para/sua/imagem.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--color-text-light);
+    margin-top: var(--header-height);
+}
+
+/* --- Hero Cadastro (Páginas Internas) --- */
+.hero-cadastro {
+    background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7)), url('fundo-voluntariado.jpg') no-repeat center center/cover;
+    color: var(--color-text-light);
+    padding: 4rem 2rem;
+    margin-bottom: 2rem;
+    margin-top: var(--header-height);
+    min-height: calc(100vh - var(--header-height));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero h1,
+.hero-page h1 {
+    font-size: 3rem;
+    margin-bottom: 3rem;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+.hero-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+/* --- Botões CTA (Call-to-Action) --- */
+/* Botão Padrão Simples */
+.cta-button {
+    display: inline-block;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* Container para Botões Flexíveis */
+.cta-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+/* Estilo Base para Botões Flexíveis */
+.btn-primary, .btn-secondary {
+    flex: 1 1 200px;
+    max-width: 250px;
+    padding: 1rem 2.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    border: none;
+    text-decoration: none;
+}
+
+/* Variação de Cores */
+.btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-text); /* CORRIGIDO: Mudei para preto para melhor contraste no botão verde */
+}
+
+.btn-secondary {
+    background-color: var(--color-secondary);
+    color: var(--color-text-light);
+}
+
+/* Efeito Hover (Consolidado) */
+.cta-button:hover,
+.btn-primary:hover,
+.btn-secondary:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    /* Mantém a cor do texto light, exceto para .cta-button simples */
+    color: var(--color-text-light);
+}
+
+/* Efeito de Brilho nos Botões Flexíveis */
+.btn-primary::after, .btn-secondary::after {
+    content: '';
+    position: absolute;
+    top: -50px;
+    left: -50px;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.15);
+    transform: rotate(45deg);
+    transition: all 0.5s ease;
+}
+
+/* Efeito de Brilho no Hover */
+.btn-primary:hover::after, .btn-secondary:hover::after {
+    top: 20px;
+    left: 20px;
+}
+
+/* ======================================= */
+/* 5. SEÇÃO DE CADASTRO E FORMULÁRIO       */
+/* ======================================= */
+.signup-section {
+    background-color: var(--color-background);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.signup-section h1, .signup-section h2 {
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.signup-section h1 {
+    font-size: 1.5rem;
+    color: var(--color-text);
+}
+
+/* --- Mensagem de Sucesso --- */
+.success-message {
+    display: none;
+    /* CORRIGIDO: Otimizado o uso de variáveis e padronizado 'color: var(--color-text-light);' */
+    background-color: var(--color-success);
+    color: var(--color-text-light);
+    padding: 1rem;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    
+    /* Adicionado a classe 'show' que é controlada pelo JS */
+    opacity: 0; 
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.success-message.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+/* --- Estilos do Formulário (#volunteerform) --- */
+#volunteerform fieldset {
+    border: 1px solid var(--color-primary);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 5px;
+}
+
+#volunteerform legend {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--color-secondary);
+    padding: 0 0.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: var(--color-text);
+}
+
+#volunteerform input:not([type="radio"]):not([type="checkbox"]),
+#volunteerform select,
+#volunteerform textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--color-primary);
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#volunteerform input:focus,
+#volunteerform select:focus,
+#volunteerform textarea:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.2rem rgba(124, 252, 0, 0.5);
+    outline: none;
+}
+
+/* --- Tabela de Voluntários --- */
+/* ATENÇÃO: O ID no JS é 'voluntariosContainer'. Usei #tabelaVoluntarios aqui, mas verifique o ID final */
+#tabelaVoluntarios {
+    /* Container que pode envolver a tabela para dar margem e sombra */
+    border-radius: 8px;
+    overflow-x: auto; /* Adicionado para lidar com tabelas grandes em telas pequenas */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-top: 1.5rem;
+}
+
+#tabelaVoluntarios table {
+    width: 100%;
+    min-width: 700px; /* Garante que a tabela tenha um tamanho mínimo para o overflow funcionar */
+    border-collapse: collapse;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+}
+
+#tabelaVoluntarios th,
+#tabelaVoluntarios td {
+    padding: 0.75rem;
+    border: 1px solid var(--color-primary);
+    text-align: center;
+    vertical-align: top; /* Alinhamento sutil para conteúdo quebrado */
+}
+
+#tabelaVoluntarios th {
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    font-weight: bold;
+
+}
+
+#tabelaVoluntarios tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#tabelaVoluntarios tr:hover {
+    background-color: var(--color-hover);
+    color: var(--color-text-light);
+}
+
+#tabelaVoluntarios p {
+    text-align: center;
+    font-weight: 500;
+    color: var(--color-text);
+    padding: 1rem;
+}
+
+
+/* ======================================= */
+/* 6. MEDIA QUERIES (Responsividade)       */
+/* ======================================= */
+@media (max-width: 900px) {
+    /* Ajustes Gerais */
+    .hero h1 {
+        font-size: 2rem;
+    }
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+    main {
+        padding: 0 1rem 4rem 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Ativa o Menu Hamburguer */
+    .menu-toggle {
+        display: block;
+    }
+
+
+    nav ul {
+        display: none;
+        position: absolute;
+        top: var(--header-height);
+        left: 0;
+        width: 100%;
+        background-color: var(--color-secondary);
+        flex-direction: column;
+        text-align: center;
+        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+        padding: 1rem 0;
+    }
+
+  
+    nav ul.active {
+        display: flex;
+    }
+    
+    nav ul li {
+        margin: 0.5rem 0;
+    }
+
+    nav ul a {
+        display: block;
+        padding: 0.5rem 0;
+        width: 100%;
+        font-size: 1.2rem;
+    }
+    
+    
+    nav ul a::after {
+        content: none;
+    }
+    
+
+    .cta-buttons {
+        flex-direction: column;
+    }
+    
+    .btn-primary, .btn-secondary {
+        max-width: 90%;
+    }
+}

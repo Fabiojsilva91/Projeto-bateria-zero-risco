@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Bateria Zero Risco</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://unpkg.com/imask@6.0.7/dist/imask.min.js"></script>
+
+    <script type="module" src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js"></script>
+
+    <style>
+        
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        
+        :root {
+            --color-primary: #10B981;
+            --color-secondary: #059669;
+            --color-text-light: #1F2937;
+            --color-text-dark: #F9FAFB;
+            --color-bg-light: #F9FAFB;
+            --color-bg-dark: #111827;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        
+        *:focus {
+            outline: 3px solid var(--color-primary);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        
+        #navMenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        #navMenu.open {
+            max-height: 300px; 
+        }
+        
+        @media (min-width: 768px) {
+            #navMenu {
+                max-height: none !important;
+                overflow: visible !important;
+            }
+        }
+      
+        .hero-cadastro {
+            background: linear-gradient(135deg, rgba(5, 150, 105, 0.9), rgba(16, 185, 129, 0.8)), url('https://placehold.co/1200x500/059669/FFFFFF?text=Seja+Um+Parceiro+Sustentável');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .dark input:not([type="checkbox"]), .dark select, .dark textarea {
+            background-color: #374151 !important; /* bg-gray-700 */
+            color: var(--color-text-dark) !important;
+            border-color: #4B5563 !important; /* border-gray-600 */
+        }
+
+        .dark {
+            background-color: var(--color-bg-dark);
+            color: var(--color-text-dark);
+        }
+        .dark .bg-white { background-color: #1F2937 !important; } 
+        .dark header, .dark footer { background-color: #1F2937 !important; }
+        .dark .text-gray-900 { color: var(--color-text-dark) !important; }
+        .dark .text-gray-600 { color: #D1D5DB !important; }
+        .dark .bg-gray-100 { background-color: #1F2937 !important; } 
+        .dark .text-secondary { color: var(--color-primary) !important; }
+
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75); 
+            display: none;
+            z-index: 1000; 
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.open {
+            display: flex;
+        }
+    </style>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': 'var(--color-primary)',
+                        'secondary': 'var(--color-secondary)',
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50 text-gray-900 min-h-screen transition-colors duration-300">
+    
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
+            <a href="#main-content" class="sr-only focus:not-sr-only p-2 text-sm text-primary underline">Ir para o Conteúdo Principal</a>
+            <div class="text-2xl font-bold text-secondary">Bateria Zero Risco</div>
+            
+            <nav aria-label="Navegação Principal" class="flex items-center">
+                
+                <button class="menu-toggle md:hidden p-2 rounded-lg text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-800" onclick="toggleMenu()" aria-expanded="false" aria-controls="navMenu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    <span class="sr-only">Abrir/Fechar Menu Principal</span> 
+                </button>
+                
+                <ul id="navMenu" class="absolute md:static top-full left-0 w-full md:w-auto bg-white md:bg-transparent shadow-lg md:shadow-none transition-all duration-300 ease-in-out md:flex md:space-x-4 dark:bg-[#1F2937] md:dark:bg-transparent">
+                    <li class="p-4 md:p-0"><a href="index.html" class="text-gray-600 hover:text-primary block md:inline dark:text-gray-400">Início</a></li>
+                    <li class="p-4 md:p-0"><a href="projeto.html" class="text-gray-600 hover:text-primary block md:inline dark:text-gray-400">Nossos Projetos</a></li>
+                    <li class="p-4 md:p-0"><a href="cadastro.html" class="text-primary font-semibold hover:underline block md:inline" aria-current="page">Faça parte você também!</a></li>
+                    
+                    <li class="p-4 md:p-0" id="login-btn-container">
+                    <button onclick="openLoginModal(event)" class="..." id="open-login-btn">Login</button>
+                    </li>
+                    
+                    <li class="p-4 md:p-0 hidden" id="logout-btn-container">
+                        <button onclick="logOut()" class="text-red-500 hover:text-red-700 block md:inline font-semibold">Sair</button>
+                    </li>
+                </ul>
+
+                <button id="theme-toggle" class="ml-4 p-2 rounded-full text-gray-600 hover:bg-gray-100 focus:ring-2 focus:ring-primary dark:text-gray-400 dark:hover:bg-gray-800" aria-label="Alternar para modo escuro/claro" onclick="toggleTheme()">
+                    <svg id="theme-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                </button>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero hero-cadastro flex items-center justify-center h-[50vh] text-white">
+        <div class="hero-content text-center p-6 bg-black bg-opacity-30 rounded-lg max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">Faça parte do Zero Risco.</h1>
+            <p class="text-xl md:text-2xl font-light drop-shadow-md">Sustentabilidade começa com a sua escolha.</p>
+        </div>
+    </section>
+    
+    <main id="main-content" tabindex="-1" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <div class="max-w-3xl mx-auto bg-white dark:bg-[#1F2937] p-8 md:p-10 rounded-xl shadow-2xl">
+            <h2 class="text-3xl font-bold mb-6 text-center border-b-2 border-primary pb-2 text-gray-900 dark:text-white">Formulário de Adesão</h2>
+            <p class="text-center text-gray-600 dark:text-gray-400 mb-8">Escolha a sua forma de participar da nossa logística reversa.</p>
+            
+            <div class="flex justify-center mb-10">
+                <div class="inline-flex rounded-xl shadow-md p-1 bg-gray-100 dark:bg-gray-800" role="group">
+                    <button id="btn-individual" onclick="switchFormType('individual')" class="px-6 py-3 text-sm font-semibold rounded-xl transition-colors duration-200 active-tab-style">
+                        Pessoa Física
+                    </button>
+                    <button id="btn-business" onclick="switchFormType('business')" class="px-6 py-3 text-sm font-semibold rounded-xl transition-colors duration-200 text-gray-600 dark:text-gray-400 hover:bg-white/50 dark:hover:bg-gray-700">
+                        Empresa / Logística Reversa
+                    </button>
+                </div>
+            </div>
+
+            <form id="registration-form" action="#" method="POST" class="space-y-6" onsubmit="handleSubmit(event)">
+                
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300"><span id="name-label">Nome Completo</span> <span class="text-red-500">*</span></label>
+                    <input type="text" id="name" name="name" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150" placeholder="Seu nome ou Razão Social">
+                </div>
+
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">E-mail <span class="text-red-500">*</span></label>
+                    <input type="email" id="email" name="email" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150" placeholder="seu.email@exemplo.com">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Telefone <span class="text-red-500">*</span></label>
+                        <input type="tel" id="phone" name="phone" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150" placeholder="(XX) XXXXX-XXXX">
+                    </div>
+                    <div>
+                        <label for="city" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Cidade <span class="text-red-500">*</span></label>
+                        <input type="text" id="city" name="city" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150" placeholder="Sua cidade">
+                    </div>
+                </div>
+
+                <div id="individual-fields" class="space-y-6">
+                    <div>
+                        <label for="age" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Idade <span class="text-red-500">*</span></label>
+                        <input type="number" id="age" name="age" min="18" max="120" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150" placeholder="Idade (mínimo 18)">
+                    </div>
+                    <div>
+                        <label for="interest" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Principal Interesse no Programa:</label>
+                        <select id="interest" name="interest" class="mt-1 block w-full px-4 py-3 border border-gray-300 bg-white dark:bg-[#374151] dark:text-gray-200 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150">
+                            <option value="coleta">Encontrar Pontos de Coleta</option>
+                            <option value="educacao">Receber Material Educacional</option>
+                            <option value="voluntariado">Voluntariado e Ações Locais</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="business-fields" class="space-y-6 hidden">
+                    <div>
+                        <label for="cnpj" class="block text-sm font-medium text-gray-700 dark:text-gray-300">CNPJ <span class="text-red-500">*</span></label>
+                        <input type="text" id="cnpj" name="cnpj" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150" placeholder="XX.XXX.XXX/XXXX-XX">
+                    </div>
+                    <div>
+                        <label for="sector" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Setor de Atuação</label>
+                        <select id="sector" name="sector" class="mt-1 block w-full px-4 py-3 border border-gray-300 bg-white dark:bg-[#374151] dark:text-gray-200 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150">
+                            <option value="industrial">Industrial</option>
+                            <option value="varejo">Varejo/Comércio</option>
+                            <option value="servicos">Serviços</option>
+                            <option value="logistica">Logística</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="volume" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Volume Estimado de Resíduos (Mensal)</label>
+                        <textarea id="volume" name="volume" rows="3" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150" placeholder="Ex: 50kg de baterias de lítio e 10kg de pilhas alcalinas."></textarea>
+                    </div>
+                </div>
+
+                <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                        <input id="terms" name="terms" type="checkbox" required class="focus:ring-primary h-4 w-4 text-primary border-gray-300 rounded">
+                    </div>
+                    <div class="ml-3 text-sm">
+                        <label for="terms" class="font-medium text-gray-700 dark:text-gray-300">
+                            Concordo com os <a href="#" class="text-primary hover:text-secondary underline">Termos de Serviço e Política de Privacidade</a>. <span class="text-red-500">*</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-lg text-lg font-bold text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition duration-300">
+                        Cadastrar e Mudar o Jogo
+                    </button>
+                </div>
+            </form>
+            
+            <p class="text-xs text-center text-gray-500 dark:text-gray-500 mt-6">Os campos marcados com <span class="text-red-500">*</span> são obrigatórios.</p>
+        </div>
+        
+    </main>
+    
+    <div id="message-modal" class="fixed inset-0 bg-gray-600 bg-opacity-75 hidden flex items-center justify-center p-4 z-[1000]" role="dialog" aria-modal="true" aria-labelledby="message-title">
+        <div class="bg-white dark:bg-gray-700 rounded-xl p-8 max-w-sm w-full shadow-2xl transform transition-all">
+            <h3 id="message-title" class="text-xl font-bold mb-4 text-gray-900 dark:text-white"></h3>
+            <p id="message-body" class="text-gray-700 dark:text-gray-300 mb-6"></p>
+            <button onclick="closeModal()" class="w-full py-2 px-4 bg-primary text-white font-semibold rounded-lg hover:bg-secondary transition duration-150">
+                Fechar
+            </button>
+        </div>
+    </div>
+
+    <div id="loginModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="bg-white dark:bg-[#1F2937] p-8 rounded-xl shadow-2xl w-full max-w-sm relative mx-4">
+            
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" aria-label="Fechar formulário de Login">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <h2 id="modal-title" class="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">Acesso do Usuário</h2>
+            
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Usuário</label>
+                    <input type="text" id="username" name="username" required 
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                            placeholder="Ex: admin, doador, voluntario">
+                </div>
+                
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Senha</label>
+                    <input type="password" id="password" name="password" required 
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                            placeholder="Ex: admin123, doador123">
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition duration-150">
+                        Entrar
+                    </button>
+                </div>
+                
+                <p id="loginFeedback" class="text-center text-sm font-medium text-red-500"></p>
+
+            </form>
+        </div>
+    </div>
+    
+    <footer class="bg-gray-800 text-gray-300 py-6 mt-12 dark:bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="copy">&copy; 2025 Bateria Zero Risco - Todos os direitos reservados.
+                <br>
+                <a href="#" class="text-primary hover:text-green-400 underline">Política de Privacidade e Acessibilidade</a>
+            </p>
+        </div>
+    </footer>
+
+    <script type="module">
+        // Importações do Firebase SDK (versão 11.6.1)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+  
+        let phoneMask, cnpjMask; 
+        const activeClass = "bg-white text-primary shadow-lg ring-2 ring-primary/50 dark:bg-gray-700 dark:text-primary";
+        const inactiveClass = "text-gray-600 dark:text-gray-400 hover:bg-white/50 dark:hover:bg-gray-700";
+        
+
+        function showMessage(title, message, isSuccess = true) {
+            const modal = document.getElementById('message-modal');
+            document.getElementById('message-title').textContent = title;
+            document.getElementById('message-body').textContent = message;
+            
+            const titleElement = modal.querySelector('#message-title');
+            if (isSuccess) {
+                titleElement.classList.remove('text-red-600');
+                titleElement.classList.add('text-primary');
+            } else {
+                titleElement.classList.remove('text-primary');
+                titleElement.classList.add('text-red-600');
+            }
+
+            modal.classList.remove('hidden');
+            modal.setAttribute('aria-hidden', 'false');
+            document.getElementById('main-content').setAttribute('aria-hidden', 'true');
+        }
+
+       
+        window.closeModal = function() {
+            const modal = document.getElementById('message-modal');
+            modal.classList.add('hidden');
+            modal.setAttribute('aria-hidden', 'true');
+            document.getElementById('main-content').setAttribute('aria-hidden', 'false');
+        }
+
+        async function initializeFirebase() {
+            if (!Object.keys(firebaseConfig).length) {
+            
+                userId = crypto.randomUUID();
+                console.warn("Aviso: Configuração do Firebase não encontrada. O formulário não irá salvar dados.");
+                return; 
+            }
+
+            try {
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        userId = user.uid;
+                        console.log("Firebase initialized. User ID:", userId);
+                    } else {
+                        userId = crypto.randomUUID();
+                        console.log("Signed out/Anonymous ID:", userId);
+                    }
+                });
+            } catch (error) {
+                console.error("Firebase initialization failed:", error);
+                showMessage("Erro de Inicialização", "Não foi possível conectar ao banco de dados. Tente recarregar a página.", false);
+            }
+        }
+        
+        function setupMasks() {
+        
+            const phoneElement = document.getElementById('phone');
+            phoneMask = IMask(phoneElement, {
+                mask: [
+                    { mask: '(00) 0000-0000' },
+                    { mask: '(00) 90000-0000' }
+                ]
+            });
+
+            
+            const cnpjElement = document.getElementById('cnpj');
+            cnpjMask = IMask(cnpjElement, {
+                mask: '00.000.000/0000-00'
+            });
+        }
+
+
+        window.handleSubmit = async function(event) {
+            event.preventDefault();
+
+            if (!db) {
+
+                showMessage("Atenção", "O cadastro **não foi salvo**. A conexão com o banco de dados não está configurada. Verifique o console para mais detalhes.", false);
+                return;
+            }
+            if (!userId) {
+                showMessage("Aguardando Inicialização", "O sistema de usuário está carregando. Tente novamente em alguns instantes.", false);
+                return;
+            }
+
+            const form = event.target;
+            const formData = new FormData(form);
+            const isBusiness = document.getElementById('individual-fields').classList.contains('hidden');
+            const type = isBusiness ? 'business' : 'individual';
+
+
+            if (!document.getElementById('terms').checked) {
+                showMessage("Erro de Validação", "Você deve concordar com os Termos de Serviço para continuar.", false);
+                return;
+            }
+
+
+            const data = {
+                type: type,
+                name: formData.get('name'),
+                email: formData.get('email'),
+                phone: phoneMask.unmaskedValue, 
+                city: formData.get('city'),
+                timestamp: new Date().toISOString(),
+                user_id_ref: userId 
+            };
+            
+            
+            if (data.phone.length < 10) {
+                showMessage("Erro de Validação", "Por favor, insira um Telefone completo (DDD + Número).", false);
+                return;
+            }
+
+            if (type === 'individual') {
+                data.age = formData.get('age');
+                data.interest = formData.get('interest');
+
+
+                const age = parseInt(data.age, 10);
+                if (isNaN(age) || age < 18) {
+                    showMessage("Erro de Validação", "Você deve ter 18 anos ou mais para participar como Pessoa Física.", false);
+                    return;
+                }
+            } else {
+                data.cnpj = cnpjMask.unmaskedValue;
+                data.sector = formData.get('sector');
+                data.volume = formData.get('volume');
+                if (data.cnpj.length !== 14) {
+                    showMessage("Erro de Validação", "Por favor, insira um CNPJ válido (14 dígitos).", false);
+                    return;
+                }
+            }
+            
+            try {
+
+                const registrationsCollectionRef = collection(db, `artifacts/${appId}/public/data/registrations`);
+                
+
+                const docRef = doc(registrationsCollectionRef, `${userId}_${Date.now()}`);
+                
+                await setDoc(docRef, data);
+
+                showMessage("Cadastro Realizado!", `Obrigado por se juntar ao Bateria Zero Risco. Seus dados foram salvos com sucesso. Entraremos em contato em breve!`);
+                
+                form.reset();
+                switchFormType('individual'); 
+
+            } catch (e) {
+                console.error("Erro ao salvar no Firestore:", e);
+                showMessage("Erro no Servidor", "Ocorreu um erro ao salvar seu cadastro. Por favor, tente novamente.", false);
+            }
+        }
+
+
+
+        window.switchFormType = function(type) {
+            const individualFields = document.getElementById('individual-fields');
+            const businessFields = document.getElementById('business-fields');
+            const nameLabel = document.getElementById('name-label');
+            const btnIndividual = document.getElementById('btn-individual');
+            const btnBusiness = document.getElementById('btn-business');
+
+
+            const ageInput = document.getElementById('age');
+            const cnpjInput = document.getElementById('cnpj');
+
+            [btnIndividual, btnBusiness].forEach(btn => {
+                btn.classList.remove(...activeClass.split(' '), ...inactiveClass.split(' '));
+            });
+
+            if (type === 'individual') {
+                individualFields.classList.remove('hidden');
+                businessFields.classList.add('hidden');
+                nameLabel.textContent = 'Nome Completo';
+                btnIndividual.classList.add(...activeClass.split(' '));
+                btnBusiness.classList.add(...inactiveClass.split(' '));
+                
+                ageInput.setAttribute('required', 'required');
+                cnpjInput.removeAttribute('required');
+
+            } else {
+                individualFields.classList.add('hidden');
+                businessFields.classList.remove('hidden');
+                nameLabel.textContent = 'Razão Social';
+                btnBusiness.classList.add(...activeClass.split(' '));
+                btnIndividual.classList.add(...inactiveClass.split(' '));
+                
+                cnpjInput.setAttribute('required', 'required');
+                ageInput.removeAttribute('required');
+            }
+        }
+        
+
+       function openLoginModal() {
+            document.getElementById('loginModal').classList.add('open');
+            document.getElementById('username').focus();
+        }
+
+        
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.remove('open');
+        }
+
+        
+        function updateLoginStatus() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const loginBtn = document.getElementById('login-btn-container');
+            const logoutBtn = document.getElementById('logout-btn-container');
+            
+            if (loginBtn && logoutBtn) {
+                if (isLoggedIn) {
+                    loginBtn.classList.add('hidden');
+                    logoutBtn.classList.remove('hidden');
+                } else {
+                    loginBtn.classList.remove('hidden');
+                    logoutBtn.classList.add('hidden');
+                }
+            }
+        }
+        
+       
+        function logOut() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('currentUser');
+            updateLoginStatus();
+            alert("Logout efetuado com sucesso.");
+        }
+        
+        
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const user = document.getElementById('username').value.toLowerCase();
+            const pass = document.getElementById('password').value;
+            const feedback = document.getElementById('loginFeedback');
+            
+            const validUsers = {
+                "admin": "admin123",
+                "voluntario": "volun123",
+                "doador": "doador123",
+                "visitante": "visita123" 
+            };
+            
+            feedback.textContent = "";
+
+            if (validUsers[user] === pass) {
+                feedback.classList.remove('text-red-500');
+                feedback.classList.add('text-primary');
+                feedback.textContent = `Sucesso! Bem-vindo(a), ${user.charAt(0).toUpperCase() + user.slice(1)}.`;
+                
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', user);
+
+                setTimeout(() => {
+                    closeLoginModal();
+                    updateLoginStatus();
+                    alert(`Login efetuado com sucesso como: ${user.toUpperCase()}`);
+                }, 1000);
+
+            } else {
+                feedback.classList.remove('text-primary');
+                feedback.classList.add('text-red-500');
+                feedback.textContent = "Usuário ou Senha incorretos. Tente novamente.";
+            }
+        }
+        
+        window.toggleMenu = function() {
+            const menu = document.getElementById('navMenu');
+            const button = document.querySelector('.menu-toggle');
+            const isExpanded = button.getAttribute('aria-expanded') === 'true';
+            menu.classList.toggle('open'); 
+            button.setAttribute('aria-expanded', !isExpanded);
+        }
+
+        window.toggleTheme = function() {
+            const html = document.documentElement;
+            const isDark = html.classList.contains('dark');
+            
+            if (isDark) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+            updateIcon(!isDark);
+        }
+
+        function updateIcon(isDark) {
+            const iconContainer = document.getElementById('theme-icon');
+            if (iconContainer) {
+                iconContainer.innerHTML = isDark 
+                    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>' 
+                    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("Setting up Firebase and Masks...");
+            initializeFirebase();
+            setupMasks();
+
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const savedTheme = localStorage.getItem('theme');
+            const html = document.documentElement;
+
+            let shouldBeDark = false;
+            if (savedTheme === 'dark') {
+                shouldBeDark = true;
+            } else if (savedTheme === null && prefersDark) {
+                shouldBeDark = true;
+            }
+
+            if (shouldBeDark) {
+                html.classList.add('dark');
+            }
+            updateIcon(shouldBeDark);
+            
+            updateLoginStatus();
+
+            switchFormType('individual');
+
+            const skipLink = document.querySelector('.sr-only.focus\\:not-sr-only');
+            if (skipLink) {
+                skipLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.getElementById('main-content').focus();
+                });
+            }
+            
+            const loginModal = document.getElementById('loginModal');
+            if (loginModal) {
+                loginModal.addEventListener('click', (e) => {
+                    if (e.target.id === 'loginModal') {
+                        closeLoginModal();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
