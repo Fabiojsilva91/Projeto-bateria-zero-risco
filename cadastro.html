@@ -9,10 +9,6 @@
     
     <script src="https://unpkg.com/imask@6.0.7/dist/imask.min.js"></script>
 
-    <script type="module" src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js"></script>
-    <script type="module" src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js"></script>
-    <script type="module" src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js"></script>
-
     <style>
         
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
@@ -319,12 +315,9 @@
         </div>
     </footer>
 
-    <script type="module">
-        // Importações do Firebase SDK (versão 11.6.1)
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-  
+    <script>
+        // O script foi alterado de type="module" para script padrão.
+
         let phoneMask, cnpjMask; 
         const activeClass = "bg-white text-primary shadow-lg ring-2 ring-primary/50 dark:bg-gray-700 dark:text-primary";
         const inactiveClass = "text-gray-600 dark:text-gray-400 hover:bg-white/50 dark:hover:bg-gray-700";
@@ -349,7 +342,7 @@
             document.getElementById('main-content').setAttribute('aria-hidden', 'true');
         }
 
-       
+        
         window.closeModal = function() {
             const modal = document.getElementById('message-modal');
             modal.classList.add('hidden');
@@ -357,42 +350,10 @@
             document.getElementById('main-content').setAttribute('aria-hidden', 'false');
         }
 
-        async function initializeFirebase() {
-            if (!Object.keys(firebaseConfig).length) {
-            
-                userId = crypto.randomUUID();
-                console.warn("Aviso: Configuração do Firebase não encontrada. O formulário não irá salvar dados.");
-                return; 
-            }
-
-            try {
-                const app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-
-                if (initialAuthToken) {
-                    await signInWithCustomToken(auth, initialAuthToken);
-                } else {
-                    await signInAnonymously(auth);
-                }
-
-                onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                        userId = user.uid;
-                        console.log("Firebase initialized. User ID:", userId);
-                    } else {
-                        userId = crypto.randomUUID();
-                        console.log("Signed out/Anonymous ID:", userId);
-                    }
-                });
-            } catch (error) {
-                console.error("Firebase initialization failed:", error);
-                showMessage("Erro de Inicialização", "Não foi possível conectar ao banco de dados. Tente recarregar a página.", false);
-            }
-        }
+        // REMOVIDA: A função initializeFirebase foi removida
         
         function setupMasks() {
-        
+            
             const phoneElement = document.getElementById('phone');
             phoneMask = IMask(phoneElement, {
                 mask: [
@@ -408,43 +369,32 @@
             });
         }
 
-
-        window.handleSubmit = async function(event) {
+        // NOVA LÓGICA: Atualizado para salvar no localStorage
+        window.handleSubmit = function(event) {
             event.preventDefault();
-
-            if (!db) {
-
-                showMessage("Atenção", "O cadastro **não foi salvo**. A conexão com o banco de dados não está configurada. Verifique o console para mais detalhes.", false);
-                return;
-            }
-            if (!userId) {
-                showMessage("Aguardando Inicialização", "O sistema de usuário está carregando. Tente novamente em alguns instantes.", false);
-                return;
-            }
-
             const form = event.target;
             const formData = new FormData(form);
             const isBusiness = document.getElementById('individual-fields').classList.contains('hidden');
             const type = isBusiness ? 'business' : 'individual';
 
-
+            // 1. Validação de Termos
             if (!document.getElementById('terms').checked) {
                 showMessage("Erro de Validação", "Você deve concordar com os Termos de Serviço para continuar.", false);
                 return;
             }
 
-
+            // 2. Coleta de Dados
             const data = {
+                id: crypto.randomUUID(), // Gera um ID único local
                 type: type,
                 name: formData.get('name'),
                 email: formData.get('email'),
                 phone: phoneMask.unmaskedValue, 
                 city: formData.get('city'),
                 timestamp: new Date().toISOString(),
-                user_id_ref: userId 
             };
             
-            
+            // 3. Validação Específica e Adição de Campos
             if (data.phone.length < 10) {
                 showMessage("Erro de Validação", "Por favor, insira um Telefone completo (DDD + Número).", false);
                 return;
@@ -453,8 +403,6 @@
             if (type === 'individual') {
                 data.age = formData.get('age');
                 data.interest = formData.get('interest');
-
-
                 const age = parseInt(data.age, 10);
                 if (isNaN(age) || age < 18) {
                     showMessage("Erro de Validação", "Você deve ter 18 anos ou mais para participar como Pessoa Física.", false);
@@ -470,26 +418,28 @@
                 }
             }
             
+            // 4. Lógica de Salvamento (Simulada via LocalStorage)
             try {
-
-                const registrationsCollectionRef = collection(db, `artifacts/${appId}/public/data/registrations`);
+                // Puxa registros existentes ou inicializa um array vazio
+                const registrations = JSON.parse(localStorage.getItem('registrations')) || [];
                 
-
-                const docRef = doc(registrationsCollectionRef, `${userId}_${Date.now()}`);
+                // Adiciona o novo registro
+                registrations.push(data);
                 
-                await setDoc(docRef, data);
+                // Salva o array atualizado
+                localStorage.setItem('registrations', JSON.stringify(registrations));
 
-                showMessage("Cadastro Realizado!", `Obrigado por se juntar ao Bateria Zero Risco. Seus dados foram salvos com sucesso. Entraremos em contato em breve!`);
+                console.log("Cadastro salvo localmente:", data);
+                showMessage("Cadastro Realizado!", `Obrigado por se juntar ao Bateria Zero Risco. Seus dados foram salvos localmente. Entraremos em contato em breve!`);
                 
                 form.reset();
                 switchFormType('individual'); 
 
             } catch (e) {
-                console.error("Erro ao salvar no Firestore:", e);
-                showMessage("Erro no Servidor", "Ocorreu um erro ao salvar seu cadastro. Por favor, tente novamente.", false);
+                console.error("Erro ao salvar no LocalStorage:", e);
+                showMessage("Erro Local", "Ocorreu um erro ao salvar seu cadastro no navegador. Tente novamente.", false);
             }
         }
-
 
 
         window.switchFormType = function(type) {
@@ -498,7 +448,6 @@
             const nameLabel = document.getElementById('name-label');
             const btnIndividual = document.getElementById('btn-individual');
             const btnBusiness = document.getElementById('btn-business');
-
 
             const ageInput = document.getElementById('age');
             const cnpjInput = document.getElementById('cnpj');
@@ -530,18 +479,31 @@
         }
         
 
-       function openLoginModal() {
+        window.openLoginModal = function(e) {
+            // A lógica de lastFocusedElement foi removida para simplificar
             document.getElementById('loginModal').classList.add('open');
-            document.getElementById('username').focus();
+            const username = document.getElementById('username');
+            if (username) username.focus();
         }
 
         
-        function closeLoginModal() {
-            document.getElementById('loginModal').classList.remove('open');
+        window.closeLoginModal = function() {
+            const modal = document.getElementById('loginModal');
+            const feedback = document.getElementById('loginFeedback');
+            const user = document.getElementById('username');
+            const pass = document.getElementById('password');
+
+            if (modal) modal.classList.remove('open');
+            if (feedback) {
+                feedback.textContent = "";
+                feedback.classList.remove('text-red-500', 'text-primary');
+            }
+            if (user) user.value = '';
+            if (pass) pass.value = '';
         }
 
         
-        function updateLoginStatus() {
+        window.updateLoginStatus = function() {
             const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
             const loginBtn = document.getElementById('login-btn-container');
             const logoutBtn = document.getElementById('logout-btn-container');
@@ -557,8 +519,8 @@
             }
         }
         
-       
-        function logOut() {
+        
+        window.logOut = function() {
             localStorage.removeItem('isLoggedIn');
             localStorage.removeItem('currentUser');
             updateLoginStatus();
@@ -566,7 +528,7 @@
         }
         
         
-        function handleLogin(event) {
+        window.handleLogin = function(event) {
             event.preventDefault();
             
             const user = document.getElementById('username').value.toLowerCase();
@@ -633,46 +595,26 @@
                     : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
             }
         }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log("Setting up Firebase and Masks...");
-            initializeFirebase();
-            setupMasks();
 
+        // Lógicas a serem executadas quando o DOM estiver pronto
+        document.addEventListener('DOMContentLoaded', () => {
+            setupMasks();
+            updateLoginStatus();
+            window.switchFormType('individual'); 
+
+            // Lógica do Tema (Dark/Light)
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const savedTheme = localStorage.getItem('theme');
-            const html = document.documentElement;
+            let dark = savedTheme === 'dark' || (!savedTheme && prefersDark);
 
-            let shouldBeDark = false;
-            if (savedTheme === 'dark') {
-                shouldBeDark = true;
-            } else if (savedTheme === null && prefersDark) {
-                shouldBeDark = true;
-            }
+            if (dark) document.documentElement.classList.add('dark');
+            updateIcon(dark);
 
-            if (shouldBeDark) {
-                html.classList.add('dark');
-            }
-            updateIcon(shouldBeDark);
-            
-            updateLoginStatus();
-
-            switchFormType('individual');
-
-            const skipLink = document.querySelector('.sr-only.focus\\:not-sr-only');
-            if (skipLink) {
-                skipLink.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    document.getElementById('main-content').focus();
-                });
-            }
-            
+            // Fechar modal de login ao clicar fora
             const loginModal = document.getElementById('loginModal');
             if (loginModal) {
                 loginModal.addEventListener('click', (e) => {
-                    if (e.target.id === 'loginModal') {
-                        closeLoginModal();
-                    }
+                    if (e.target.id === 'loginModal') closeLoginModal();
                 });
             }
         });
