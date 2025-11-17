@@ -27,7 +27,7 @@
         /* Navegação por Teclado: Estilo do foco visível (WCAG 2.1.1) */
         *:focus {
             outline: 3px solid var(--color-primary);
-            outline-offset: 2px;    
+            outline-offset: 2px;     
             border-radius: 4px;
         }
         .sr-only { /* Mantido para acessibilidade */
@@ -121,7 +121,7 @@
                 
                 <ul id="navMenu" class="absolute md:static top-full left-0 w-full md:w-auto bg-white dark:bg-gray-800 md:bg-transparent shadow-lg md:shadow-none transition-all duration-300 ease-in-out md:flex md:space-x-4">
                     <li class="p-4 md:p-0"><a href="index.html" class="text-gray-600 hover:text-primary block md:inline">Início</a></li>
-                    <li class="p-4 md:p-0"><a href="projetos.html" class="text-primary font-semibold hover:underline block md:inline" aria-current="page">Nossos Projetos</a></li>
+                    <li class="p-4 md:p-0"><a href="projeto.html" class="text-primary font-semibold hover:underline block md:inline" aria-current="page">Nossos Projetos</a></li>
                     <li class="p-4 md:p-0"><a href="cadastro.html" class="text-gray-600 hover:text-primary block md:inline">Faça parte você também!</a></li>
                     
                     <li class="p-4 md:p-0" id="login-btn-container">
@@ -167,12 +167,9 @@
                 <img src="https://picsum.photos/400/250?random=3" alt="Foto 3" class="rounded-lg shadow-md w-full h-full object-cover">
                 <img src="https://picsum.photos/400/250?random=4" alt="Foto 4" class="rounded-lg shadow-md w-full h-full object-cover">
                 <img src="https://picsum.photos/400/250?random=5" alt="Foto 5" class="rounded-lg shadow-md w-full h-full object-cover">
-                <img src="https://picsum.photos/400/250?random=6" alt="Foto 6" class="rounded-lg shadow-md w-full h-full object-cover">
-                <img src="https://picsum.photos/400/250?random=7" alt="Foto 7" class="rounded-lg shadow-md w-full h-full object-cover">
-                <img src="https://picsum.photos/400/250?random=8" alt="Foto 8" class="rounded-lg shadow-md w-full h-full object-cover">
             </div>
         </section>
-    </main>
+        </main>
 
     <footer id="contato" class="bg-gray-800 text-gray-300 py-6 mt-12 dark:bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -201,15 +198,15 @@
                 <div>
                     <label for="username" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Usuário</label>
                     <input type="text" id="username" name="username" required 
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                            placeholder="Ex: admin, doador, voluntario">
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                placeholder="Ex: admin, doador, voluntario">
                 </div>
                 
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Senha</label>
                     <input type="password" id="password" name="password" required 
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                            placeholder="Ex: admin123, doador123">
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                placeholder="Ex: admin123, doador123">
                 </div>
 
                 <div class="pt-2">
@@ -225,7 +222,7 @@
     </div>
 
     <script>
-       
+        
         function rolarParaContato() {
             document.getElementById("contato").scrollIntoView({ behavior: "smooth" });
         }
@@ -239,7 +236,7 @@
             button.setAttribute('aria-expanded', !isExpanded);
         }
 
-       
+        
         function toggleTheme() {
             const html = document.documentElement;
             const isDark = html.classList.contains('dark');
@@ -254,7 +251,7 @@
             updateIcon(!isDark);
         }
 
-       
+        
         function updateIcon(isDark) {
             const iconContainer = document.getElementById('theme-icon');
             if (iconContainer) {
@@ -264,7 +261,7 @@
             }
         }
         
-      
+        
         function openLoginModal() {
             document.getElementById('loginModal').classList.add('open');
             document.getElementById('username').focus();
@@ -292,7 +289,7 @@
             }
         }
         
-       
+        
         function logOut() {
             localStorage.removeItem('isLoggedIn');
             localStorage.removeItem('currentUser');
