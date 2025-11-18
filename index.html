@@ -23,6 +23,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
+            /* A transição no body já estava definida aqui */
             transition: background-color 0.6s, color 0.6s;
             /* NOVO: Define o fundo padrão (Light Mode) */
             background-color: var(--color-bg-light); 
@@ -79,11 +80,11 @@
         
         /* Regras para elementos internos no Dark Mode */
         .dark .bg-white,
-        .dark header,
+        .dark header.transition-colors, /* Usa a transição do Tailwind */
         .dark .modal > div { 
             background-color: var(--color-bg-card-dark) !important; 
         } 
-        .dark footer,
+        .dark footer.transition-colors, /* Usa a transição do Tailwind */
         .dark .dark\:bg-gray-900 { 
             background-color: var(--color-bg-dark) !important; /* Fundo mais escuro para footer */
         } 
@@ -93,7 +94,7 @@
         .dark .text-gray-600 { 
             color: #fdfeff !important; /* Quase branco */
         }
-        .dark .bg-gray-100 { 
+        .dark .bg-gray-100.transition-colors { /* Usa a transição do Tailwind */
             background-color: var(--color-bg-card-dark) !important; 
         } 
         .dark .text-secondary { 
@@ -138,16 +139,16 @@
     </script>
 </head>
 
-<body class="text-gray-900 min-h-screen transition-colors duration-300"> 
+<body class="text-gray-900 min-h-screen"> 
     
-    <header class="bg-white shadow-md sticky top-0 z-50">
+    <header class="bg-white shadow-md sticky top-0 z-50 transition-colors duration-500">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
             <a href="#main-content" class="sr-only focus:not-sr-only p-2 text-sm text-primary underline">Ir para o Conteúdo Principal</a>
             <div class="text-2xl font-bold text-secondary">Bateria Zero Risco</div>
             
             <nav aria-label="Navegação Principal" class="flex items-center">
                 
-                <button class="menu-toggle md:hidden p-2 rounded-lg text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" onclick="toggleMenu()" aria-expanded="false" aria-controls="navMenu">
+                <button class="menu-toggle md:hidden p-2 rounded-lg text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors duration-500" onclick="toggleMenu()" aria-expanded="false" aria-controls="navMenu">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                     <span class="sr-only">Abrir/Fechar Menu Principal</span> 
                 </button>
@@ -166,7 +167,7 @@
                     </li>
                     </ul>
 
-                <button id="theme-toggle" class="ml-4 p-2 rounded-full text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 focus:ring-2 focus:ring-primary" aria-label="Alternar para modo escuro/claro" onclick="toggleTheme()">
+                <button id="theme-toggle" class="ml-4 p-2 rounded-full text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 focus:ring-2 focus:ring-primary transition-colors duration-500" aria-label="Alternar para modo escuro/claro" onclick="toggleTheme()">
                     <svg id="theme-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                 </button>
             </nav>
@@ -184,23 +185,23 @@
         
         <section class="mb-12">
             <h2 class="text-3xl font-bold mb-4 border-b-2 border-primary pb-2 text-secondary dark:text-primary">Nossa Missão</h2> 
-            <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">O Bateria Zero Risco é uma plataforma dedicada a conectar pessoas e empresas que buscam um desenvolvimento sustentável para o fim de baterias e pilhas sem prejudicar o meio ambiente. Nossa meta é criar um ciclo de vida responsável, garantindo que materiais perigosos sejam reciclados de forma segura e ética.</p>
+            <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed transition-colors duration-500">O Bateria Zero Risco é uma plataforma dedicada a conectar pessoas e empresas que buscam um desenvolvimento sustentável para o fim de baterias e pilhas sem prejudicar o meio ambiente. Nossa meta é criar um ciclo de vida responsável, garantindo que materiais perigosos sejam reciclados de forma segura e ética.</p>
         </section>
         
         <section class="mb-12">
             <h2 class="text-3xl font-bold mb-8 border-b-2 border-primary pb-2 text-secondary dark:text-primary">Nossos Projetos</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 dark:bg-[#1F2937]">
-                    <h3 class="text-xl font-semibold text-secondary dark:text-primary">Coleta Inteligente</h3>
-                    <p class="text-gray-600 dark:text-gray-400 mt-2">Uso de IoT para otimizar rotas de coleta de resíduos em centros urbanos.</p>
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 dark:bg-[#1F2937] transition-colors duration-500">
+                    <h3 class="text-xl font-semibold text-secondary dark:text-primary transition-colors duration-500">Coleta Inteligente</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mt-2 transition-colors duration-500">Uso de IoT para otimizar rotas de coleta de resíduos em centros urbanos.</p>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 dark:bg-[#1F2937]">
-                    <h3 class="text-xl font-semibold text-secondary dark:text-primary">Educação Ambiental</h3>
-                    <p class="text-gray-600 dark:text-gray-400 mt-2">Workshops e material didático para conscientizar a comunidade sobre o descarte correto.</p>
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 dark:bg-[#1F2937] transition-colors duration-500">
+                    <h3 class="text-xl font-semibold text-secondary dark:text-primary transition-colors duration-500">Educação Ambiental</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mt-2 transition-colors duration-500">Workshops e material didático para conscientizar a comunidade sobre o descarte correto.</p>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 dark:bg-[#1F2937]">
-                    <h3 class="text-xl font-semibold text-secondary dark:text-primary">Certificação Sustentável</h3>
-                    <p class="text-gray-600 dark:text-gray-400 mt-2">Selo de reconhecimento para empresas que aderem ao nosso ciclo de logística reversa.</p>
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 dark:bg-[#1F2937] transition-colors duration-500">
+                    <h3 class="text-xl font-semibold text-secondary dark:text-primary transition-colors duration-500">Certificação Sustentável</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mt-2 transition-colors duration-500">Selo de reconhecimento para empresas que aderem ao nosso ciclo de logística reversa.</p>
                 </div>
             </div>
             <div class="text-center mt-8">
@@ -210,15 +211,15 @@
             </div>
         </section>
 
-        <section class="py-12 bg-gray-100 dark:bg-[#1F2937] rounded-xl shadow-lg mt-12">
+        <section class="py-12 bg-gray-100 dark:bg-[#1F2937] rounded-xl shadow-lg mt-12 transition-colors duration-500">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl font-bold mb-10 text-center border-b-2 border-secondary pb-2 text-secondary dark:text-primary">Como Funciona o Ciclo Zero Risco</h2>
                 <div class="space-y-8 md:space-y-0 md:grid md:grid-cols-3 md:gap-8">
                     
                     <article class="text-center p-4">
-                        <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-primary rounded-full text-white font-bold text-3xl shadow-lg">1</div>
-                        <h3 class="text-xl font-semibold text-secondary dark:text-primary mt-2">Descarte Consciente</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mt-1 text-sm">Utilize um de nossos pontos de coleta ou solicite a coleta empresarial (logística reversa).</p>
+                        <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-primary rounded-full text-white font-bold text-3xl shadow-lg transition-colors duration-500">1</div>
+                        <h3 class="text-xl font-semibold text-secondary dark:text-primary mt-2 transition-colors duration-500">Descarte Consciente</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mt-1 text-sm transition-colors duration-500">Utilize um de nossos pontos de coleta ou solicite a coleta empresarial (logística reversa).</p>
                     </article>
                     
                     <div class="hidden md:flex items-center justify-center">
@@ -226,9 +227,9 @@
                     </div>
                     
                     <article class="text-center p-4">
-                        <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-primary rounded-full text-white font-bold text-3xl shadow-lg">2</div>
-                        <h3 class="text-xl font-semibold text-secondary dark:text-primary mt-2">Rastreamento e Logística</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mt-1 text-sm">Garantimos o rastreamento completo da bateria até a usina de processamento.</p>
+                        <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-primary rounded-full text-white font-bold text-3xl shadow-lg transition-colors duration-500">2</div>
+                        <h3 class="text-xl font-semibold text-secondary dark:text-primary mt-2 transition-colors duration-500">Rastreamento e Logística</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mt-1 text-sm transition-colors duration-500">Garantimos o rastreamento completo da bateria até a usina de processamento.</p>
                     </article>
 
                     <div class="hidden md:flex items-center justify-center">
@@ -236,9 +237,9 @@
                     </div>
 
                     <article class="text-center p-4">
-                        <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-primary rounded-full text-white font-bold text-3xl shadow-lg">3</div>
-                        <h3 class="text-xl font-semibold text-secondary dark:text-primary mt-2">Reciclagem Segura</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mt-1 text-sm">Processamento final por parceiros certificados, recuperando metais e fechando o ciclo.</p>
+                        <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-primary rounded-full text-white font-bold text-3xl shadow-lg transition-colors duration-500">3</div>
+                        <h3 class="text-xl font-semibold text-secondary dark:text-primary mt-2 transition-colors duration-500">Reciclagem Segura</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mt-1 text-sm transition-colors duration-500">Processamento final por parceiros certificados, recuperando metais e fechando o ciclo.</p>
                     </article>
 
                 </div>
@@ -247,7 +248,7 @@
         
     </main>
     
-    <footer class="bg-gray-800 text-gray-300 py-6 mt-12 dark:bg-gray-900">
+    <footer class="bg-gray-800 text-gray-300 py-6 mt-12 dark:bg-gray-900 transition-colors duration-500">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p class="copy">&copy; 2025 Bateria Zero Risco - Todos os direitos reservados.
                 <br>
@@ -257,7 +258,7 @@
     </footer>
 
     <div id="loginModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-        <div class="bg-white dark:bg-[#1F2937] p-8 rounded-xl shadow-2xl w-full max-w-sm relative mx-4">
+        <div class="bg-white dark:bg-[#1F2937] p-8 rounded-xl shadow-2xl w-full max-w-sm relative mx-4 transition-colors duration-500">
             
             <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" aria-label="Fechar formulário de Login">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -270,14 +271,14 @@
                 <div>
                     <label for="username" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Usuário</label>
                     <input type="text" id="username" name="username" required 
-                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white transition-colors duration-500"
                              placeholder="Ex: admin, doador, voluntario">
                 </div>
                 
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Senha</label>
                     <input type="password" id="password" name="password" required 
-                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white transition-colors duration-500"
                              placeholder="Ex: admin123, doador123">
                 </div>
 

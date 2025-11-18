@@ -14,28 +14,28 @@
             --color-primary: #10B981; /* Verde Esmeralda (Claro) */
             --color-secondary: #059669; /* Verde mais escuro (Escuro) */
             --color-text-light: #0b0e11; /* Cinza escuro */
-            --color-text-dark: #cec4c4; /* Quase branco */
+            --color-text-dark: #e5e7eb; /* Cinza claro/Quase branco (Tailwind Gray-200) */
             --color-bg-light: #f9fafb; /* Cor da classe Tailwind bg-gray-50 */
-            --color-bg-dark: #111827; /* Cor de fundo escura (Dark Blue/Gray) */
+            --color-bg-dark: #111827; /* Cor de fundo escura (Dark Blue/Gray 900) */
             --color-bg-card-dark: #1F2937; /* Cor dos cartões (Dark Gray 800) */
         }
 
         body {
             font-family: 'Inter', sans-serif;
             transition: background-color 0.5s, color 0.5s;
-            /* ADICIONADO: Define o fundo padrão (Light Mode) aqui, 
-               pois a classe 'bg-gray-50' foi removida do HTML.
-            */
+            /* Fundo padrão (Light Mode) */
             background-color: var(--color-bg-light);
             color: var(--color-text-light);
         }
 
         /* Navegação por Teclado: Estilo do foco visível (WCAG 2.1.1) */
-        *:focus {
+        /* Aplicado a todos os elementos interativos para acessibilidade */
+        a:focus, button:focus, input:focus {
             outline: 3px solid var(--color-primary);
             outline-offset: 2px;     
             border-radius: 4px;
         }
+
         .sr-only { /* Mantido para acessibilidade */
             position: absolute;
             width: 1px;
@@ -65,24 +65,23 @@
             }
         }
 
-        /* AJUSTADO: O seletor '.dark body' garante que o background 
-           e o texto do corpo sejam alterados.
-        */
+        /* Dark Mode - Regras para o corpo e elementos específicos */
         .dark body {
-            background-color: var(--color-bg-dark); /* Cor de fundo escura aplicada ao corpo */
-            color: var(--color-text-dark); /* Cor do texto clara aplicada ao corpo */
+            background-color: var(--color-bg-dark); 
+            color: var(--color-text-dark);
         }
 
-        /* Dark Mode - Regras para elementos internos */
         .dark .bg-white { background-color: var(--color-bg-card-dark) !important; } 
-        .dark header { background-color: var(--color-bg-card-dark) !important; } /* Corrigido para usar a variável */
-        .dark footer { background-color: var(--color-bg-dark) !important; } /* Usando a cor de fundo mais escura para o footer */
+        .dark header { background-color: var(--color-bg-card-dark) !important; } 
+        .dark footer { background-color: var(--color-bg-dark) !important; } 
         .dark .text-gray-900 { color: var(--color-text-dark) !important; }
-        .dark .text-gray-600 { color: #fdfeff !important; }
+        .dark .text-gray-600 { color: #d1d5db !important; } /* Gray-300 */
         .dark .bg-gray-100 { background-color: var(--color-bg-card-dark) !important; } 
         .dark .text-secondary { color: var(--color-primary) !important; }
+        .dark .text-gray-700 { color: #d1d5db !important; } /* Gray-300 para labels */
 
-        /* Estilo do Modal de Login (Mantido) */
+
+        /* Estilo do Modal de Login */
         .modal {
             position: fixed;
             top: 0;
@@ -119,12 +118,14 @@
 
     <header class="bg-white shadow-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
-            <a href="#main-content" class="sr-only focus:not-sr-only p-2 text-sm text-primary underline">Ir para o Conteúdo Principal</a>
+            
+            <a href="#main-content" class="sr-only focus:not-sr-only focus:block p-2 text-sm text-primary underline absolute top-0 left-0 bg-white dark:bg-gray-700 z-[1001]">Ir para o Conteúdo Principal</a>
+            
             <div class="text-2xl font-bold text-secondary">Bateria Zero Risco</div>
             
             <nav aria-label="Navegação Principal" class="flex items-center">
                 
-                <button class="menu-toggle md:hidden p-2 rounded-lg text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" onclick="toggleMenu()" aria-expanded="false" aria-controls="navMenu">
+                <button id="menu-toggle-btn" class="menu-toggle md:hidden p-2 rounded-lg text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" aria-expanded="false" aria-controls="navMenu">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                     <span class="sr-only">Abrir/Fechar Menu Principal</span> 
                 </button>
@@ -135,55 +136,74 @@
                     <li class="p-4 md:p-0"><a href="cadastro.html" class="text-gray-600 hover:text-primary block md:inline">Faça parte você também!</a></li>
                     
                     <li class="p-4 md:p-0" id="login-btn-container">
-                        <button onclick="openLoginModal()" class="text-gray-600 hover:text-primary block md:inline font-semibold">Login</button>
+                        <button type="button" id="open-login-btn" class="text-gray-600 hover:text-primary block md:inline font-semibold">Login</button>
                     </li>
                     
                     <li class="p-4 md:p-0 hidden" id="logout-btn-container">
-                        <button onclick="logOut()" class="text-red-500 hover:text-red-700 block md:inline font-semibold">Sair</button>
+                        <button type="button" id="logout-btn" class="text-red-500 hover:text-red-700 block md:inline font-semibold">Sair</button>
                     </li>
                 </ul>
 
-                <button id="theme-toggle" class="ml-4 p-2 rounded-full text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 focus:ring-2 focus:ring-primary" aria-label="Alternar para modo escuro/claro" onclick="toggleTheme()">
+                <button id="theme-toggle" class="ml-4 p-2 rounded-full text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 focus:ring-2 focus:ring-primary" aria-label="Alternar para modo escuro/claro">
                     <svg id="theme-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                 </button>
             </nav>
         </div>
     </header>
 
-    <main id="main-content" tabindex="-1" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <section class="projetos mb-12">
-            <h1 class="text-4xl font-extrabold mb-8 text-secondary dark:text-primary text-center">Nossos Projetos</h1>
+    <main id="main-content" tabindex="-1" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 focus:outline-none">
+        
+        <section class="projetos mb-12" aria-labelledby="heading-projetos">
+            <h1 id="heading-projetos" class="text-4xl font-extrabold mb-8 text-secondary dark:text-primary text-center">Nossos Projetos 💡</h1>
+            
             <div class="cards grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="card bg-white dark:bg-[#1F2937] p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-100 dark:border-gray-800">
+                
+                <article class="card bg-white dark:bg-[--color-bg-card-dark] p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-100 dark:border-gray-800">
                     <h3 class="text-2xl font-semibold text-primary mb-3">Reflorestar</h3>
                     <p class="text-gray-600 dark:text-gray-400">Projeto voltado ao plantio de árvores em áreas degradadas e educação ambiental nas escolas.</p>
-                </div>
-                <div class="card bg-white dark:bg-[#1F2937] p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-100 dark:border-gray-800">
+                </article>
+                
+                <article class="card bg-white dark:bg-[--color-bg-card-dark] p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-100 dark:border-gray-800">
                     <h3 class="text-2xl font-semibold text-primary mb-3">Sopão Solidário</h3>
                     <p class="text-gray-600 dark:text-gray-400">Distribuição de refeições a pessoas em situação de vulnerabilidade social.</p>
-                </div>
-                <div class="card bg-white dark:bg-[#1F2937] p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-100 dark:border-gray-800">
+                </article>
+                
+                <article class="card bg-white dark:bg-[--color-bg-card-dark] p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-gray-100 dark:border-gray-800">
                     <h3 class="text-2xl font-semibold text-primary mb-3">Doar é Amar</h3>
                     <p class="text-gray-600 dark:text-gray-400">Campanhas de arrecadação de roupas, alimentos e brinquedos durante todo o ano.</p>
-                </div>
+                </article>
+                
             </div>
         </section>
 
-        <section class="galeria py-12">
-            <h2 class="text-3xl font-bold mb-8 text-center border-b-2 border-primary pb-2">Galeria de Imagens</h2>
+        <hr class="border-t border-gray-300 dark:border-gray-700 my-8">
+
+        <section class="galeria py-12" aria-labelledby="heading-galeria">
+            <h2 id="heading-galeria" class="text-3xl font-bold mb-8 text-center border-b-2 border-primary pb-2">Galeria de Imagens 📸</h2>
             <div class="galeria-grid grid grid-cols-2 sm:grid-cols-4 gap-4">
-                <img src="https://picsum.photos/400/250?random=1" alt="Foto 1" class="rounded-lg shadow-md w-full h-full object-cover">
-                <img src="https://picsum.photos/400/250?random=2" alt="Foto 2" class="rounded-lg shadow-md w-full h-full object-cover">
-                <img src="https://picsum.photos/400/250?random=3" alt="Foto 3" class="rounded-lg shadow-md w-full h-full object-cover">
-                <img src="https://picsum.photos/400/250?random=4" alt="Foto 4" class="rounded-lg shadow-md w-full h-full object-cover">
-                <img src="https://picsum.photos/400/250?random=5" alt="Foto 5" class="rounded-lg shadow-md w-full h-full object-cover">
+                <figure class="rounded-lg shadow-md overflow-hidden aspect-video">
+                    <img src="https://picsum.photos/400/250?random=1" alt="Voluntários plantando árvores." class="w-full h-full object-cover hover:scale-105 transition duration-300">
+                </figure>
+                <figure class="rounded-lg shadow-md overflow-hidden aspect-video">
+                    <img src="https://picsum.photos/400/250?random=2" alt="Distribuição de alimentos em um projeto social." class="w-full h-full object-cover hover:scale-105 transition duration-300">
+                </figure>
+                <figure class="rounded-lg shadow-md overflow-hidden aspect-video">
+                    <img src="https://picsum.photos/400/250?random=3" alt="Crianças brincando com brinquedos doados." class="w-full h-full object-cover hover:scale-105 transition duration-300">
+                </figure>
+                <figure class="rounded-lg shadow-md overflow-hidden aspect-video hidden sm:block">
+                    <img src="https://picsum.photos/400/250?random=4" alt="Mesa farta de doações de alimentos." class="w-full h-full object-cover hover:scale-105 transition duration-300">
+                </figure>
+                <figure class="rounded-lg shadow-md overflow-hidden aspect-video hidden md:block">
+                    <img src="https://picsum.photos/400/250?random=5" alt="Grupo de voluntários posando para a foto após o trabalho." class="w-full h-full object-cover hover:scale-105 transition duration-300">
+                </figure>
             </div>
         </section>
-        </main>
+        
+    </main>
 
-    <footer id="contato" class="bg-gray-800 text-gray-300 py-6 mt-12 dark:bg-gray-900">
+    <footer id="contato" class="bg-gray-800 text-gray-300 py-6 mt-12 dark:bg-gray-900" aria-labelledby="footer-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h3 class="text-xl font-bold mb-2 text-white">Entre em Contato</h3>
+            <h3 id="footer-heading" class="text-xl font-bold mb-2 text-white">Entre em Contato</h3>
             <p><strong>Email:</strong> contato@ongficticia.org</p>
             <p><strong>Telefone:</strong> (11) 99999-9999</p>
             <p><strong>Doações:</strong> Chave PIX - 11.111.111/0001-11</p>
@@ -197,26 +217,28 @@
     <div id="loginModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div class="bg-white dark:bg-[--color-bg-card-dark] p-8 rounded-xl shadow-2xl w-full max-w-sm relative mx-4">
             
-            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" aria-label="Fechar formulário de Login">
+            <button id="close-modal-btn" type="button" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" aria-label="Fechar formulário de Login">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
 
             <h2 id="modal-title" class="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">Acesso do Usuário</h2>
             
-            <form onsubmit="handleLogin(event)" class="space-y-4">
+            <form id="loginForm" class="space-y-4">
                 
                 <div>
                     <label for="username" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Usuário</label>
                     <input type="text" id="username" name="username" required 
                                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                                 placeholder="Ex: admin, doador, voluntario">
+                                 placeholder="Ex: admin, doador, voluntario"
+                                 autocomplete="username">
                 </div>
                 
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Senha</label>
                     <input type="password" id="password" name="password" required 
                                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                                 placeholder="Ex: admin123, doador123">
+                                 placeholder="Ex: admin123, doador123"
+                                 autocomplete="current-password">
                 </div>
 
                 <div class="pt-2">
@@ -225,7 +247,7 @@
                     </button>
                 </div>
                 
-                <p id="loginFeedback" class="text-center text-sm font-medium text-red-500"></p>
+                <p id="loginFeedback" class="text-center text-sm font-medium"></p>
 
             </form>
         </div>
@@ -233,20 +255,18 @@
 
     <script>
         
-        function rolarParaContato() {
-            document.getElementById("contato").scrollIntoView({ behavior: "smooth" });
+        /**
+         * 1. Funções de Tema e Ícone
+         */
+        function updateIcon(isDark) {
+            const iconContainer = document.getElementById('theme-icon');
+            if (iconContainer) {
+                iconContainer.innerHTML = isDark 
+                    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>' // Lua (Dark)
+                    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>'; // Sol (Light)
+            }
         }
 
-        
-        function toggleMenu() {
-            const menu = document.getElementById('navMenu');
-            const button = document.querySelector('.menu-toggle');
-            const isExpanded = button.getAttribute('aria-expanded') === 'true';
-            menu.classList.toggle('open'); 
-            button.setAttribute('aria-expanded', !isExpanded);
-        }
-
-        
         function toggleTheme() {
             const html = document.documentElement;
             const isDark = html.classList.contains('dark');
@@ -254,51 +274,56 @@
             if (isDark) {
                 html.classList.remove('dark');
                 localStorage.setItem('theme', 'light');
+                updateIcon(false);
             } else {
                 html.classList.add('dark');
                 localStorage.setItem('theme', 'dark');
+                updateIcon(true);
             }
-            updateIcon(!isDark);
         }
 
-        
-        function updateIcon(isDark) {
-            const iconContainer = document.getElementById('theme-icon');
-            if (iconContainer) {
-                iconContainer.innerHTML = isDark 
-                    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>' // Moon
-                    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>'; // Sun
-            }
+        /**
+         * 2. Funções de Menu (Mobile)
+         */
+        function toggleMenu() {
+            const menu = document.getElementById('navMenu');
+            const button = document.getElementById('menu-toggle-btn');
+            const isExpanded = button.getAttribute('aria-expanded') === 'true';
+            
+            menu.classList.toggle('open'); 
+            button.setAttribute('aria-expanded', !isExpanded);
         }
-        
-        
+
+        /**
+         * 3. Funções de Modal de Login
+         */
         function openLoginModal() {
             document.getElementById('loginModal').classList.add('open');
             document.getElementById('username').focus();
         }
 
-        
         function closeLoginModal() {
             document.getElementById('loginModal').classList.remove('open');
+            // Limpar feedback e campos
+            document.getElementById('loginFeedback').textContent = "";
+            document.getElementById('loginForm').reset(); 
         }
 
-        
         function updateLoginStatus() {
             const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-            const loginBtn = document.getElementById('login-btn-container');
-            const logoutBtn = document.getElementById('logout-btn-container');
+            const loginBtnContainer = document.getElementById('login-btn-container');
+            const logoutBtnContainer = document.getElementById('logout-btn-container');
             
-            if (loginBtn && logoutBtn) {
+            if (loginBtnContainer && logoutBtnContainer) {
                 if (isLoggedIn) {
-                    loginBtn.classList.add('hidden');
-                    logoutBtn.classList.remove('hidden');
+                    loginBtnContainer.classList.add('hidden');
+                    logoutBtnContainer.classList.remove('hidden');
                 } else {
-                    loginBtn.classList.remove('hidden');
-                    logoutBtn.classList.add('hidden');
+                    loginBtnContainer.classList.remove('hidden');
+                    logoutBtnContainer.classList.add('hidden');
                 }
             }
         }
-        
         
         function logOut() {
             localStorage.removeItem('isLoggedIn');
@@ -306,7 +331,6 @@
             updateLoginStatus();
             alert("Logout efetuado com sucesso.");
         }
-        
         
         function handleLogin(event) {
             event.preventDefault();
@@ -335,7 +359,7 @@
                 setTimeout(() => {
                     closeLoginModal();
                     updateLoginStatus();
-                    alert(`Login efetuado com sucesso como: ${user.toUpperCase()}`);
+                    // alert(`Login efetuado com sucesso como: ${user.toUpperCase()}`);
                 }, 1000);
 
             } else {
@@ -345,11 +369,12 @@
             }
         }
         
-        
+        /**
+         * 4. Inicialização e Event Listeners (DOMContentLoaded)
+         */
         document.addEventListener('DOMContentLoaded', () => {
         
-            updateLoginStatus(); 
-
+            // Aplica o tema salvo ou o tema do sistema
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const savedTheme = localStorage.getItem('theme');
             const html = document.documentElement;
@@ -366,15 +391,23 @@
             }
             updateIcon(shouldBeDark);
             
+            // Atualiza o status de Login
+            updateLoginStatus(); 
+
+            // --- Event Listeners ---
+
+            // Tema
+            document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
             
-            const skipLink = document.querySelector('.sr-only.focus\\:not-sr-only');
-            if (skipLink) {
-                skipLink.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    document.getElementById('main-content').focus();
-                });
-            }
-            
+            // Menu Mobile
+            document.getElementById('menu-toggle-btn').addEventListener('click', toggleMenu);
+
+            // Login / Modal
+            document.getElementById('open-login-btn')?.addEventListener('click', openLoginModal);
+            document.getElementById('close-modal-btn')?.addEventListener('click', closeLoginModal);
+            document.getElementById('loginForm')?.addEventListener('submit', handleLogin);
+            document.getElementById('logout-btn')?.addEventListener('click', logOut);
+
             // Fechar Modal ao clicar fora
             const loginModal = document.getElementById('loginModal');
             if (loginModal) {
@@ -384,6 +417,12 @@
                     }
                 });
             }
+            
+            // Navegação por Teclado: Foco no conteúdo principal
+            document.querySelector('.sr-only.focus\\:not-sr-only')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById('main-content').focus();
+            });
         });
     </script>
 </body>

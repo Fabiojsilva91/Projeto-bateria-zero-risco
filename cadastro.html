@@ -164,7 +164,7 @@
 
 <body class="bg-gray-50 text-gray-900 min-h-screen transition-colors duration-300">
     
-    <header class="bg-white shadow-md sticky top-0 z-50">
+    <header class="bg-white shadow-md sticky top-0 z-50 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
             <a href="#main-content" class="sr-only focus:not-sr-only p-2 text-sm text-primary underline">Ir para o Conteúdo Principal</a>
             <div class="text-2xl font-bold text-secondary">Bateria Zero Risco</div>
@@ -206,7 +206,7 @@
     
     <main id="main-content" tabindex="-1" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         
-        <div class="max-w-3xl mx-auto bg-white dark:bg-gray-800 p-8 md:p-10 rounded-xl shadow-2xl">
+        <div class="max-w-3xl mx-auto bg-white dark:bg-gray-800 p-8 md:p-10 rounded-xl shadow-2xl transition-colors duration-300">
             <h2 class="text-3xl font-bold mb-6 text-center border-b-2 border-primary pb-2 text-gray-900 dark:text-white">Formulário de Adesão</h2>
             <p class="text-center text-gray-600 dark:text-gray-400 mb-8">Escolha a sua forma de participar da nossa logística reversa.</p>
             
@@ -350,7 +350,7 @@
         </div>
     </div>
     
-    <footer class="bg-gray-800 text-gray-300 py-6 mt-12 dark:bg-gray-900">
+    <footer class="bg-gray-800 text-gray-300 py-6 mt-12 dark:bg-gray-900 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p class="copy">&copy; 2025 Bateria Zero Risco - Todos os direitos reservados.
                 <br>
@@ -362,7 +362,7 @@
     <script>
 
         let phoneMask, cnpjMask; 
-        // Atualizei a classe ativa para usar dark:bg-gray-700
+        
         const activeClass = "bg-white text-primary shadow-lg ring-2 ring-primary/50 dark:bg-gray-700 dark:text-primary";
         const inactiveClass = "text-gray-600 dark:text-gray-400 hover:bg-white/50 dark:hover:bg-gray-700";
         
@@ -517,7 +517,7 @@
         
 
         window.openLoginModal = function(e) {
-            // A lógica de lastFocusedElement foi removida para simplificar
+            
             document.getElementById('loginModal').classList.add('open');
             const username = document.getElementById('username');
             if (username) username.focus();
