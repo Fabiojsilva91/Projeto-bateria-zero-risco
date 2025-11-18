@@ -7,14 +7,14 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-
+        /* Configuração de fonte padrão e cores para contraste */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
         
         :root {
-            --color-primary: #10B981; 
-            --color-secondary: #059669; 
-            --color-text-light: #1F2937; 
-            --color-text-dark: #e5e7eb; 
+            --color-primary: #10B981; /* Verde Esmeralda (Claro) */
+            --color-secondary: #059669; /* Verde mais escuro (Escuro) */
+            --color-text-light: #1F2937; /* Cinza escuro */
+            --color-text-dark: #626c75; /* Quase branco */
             --color-bg-light: #F9FAFB;
             --color-bg-dark: #111827;
         }
@@ -24,13 +24,13 @@
             transition: background-color 0.6s, color 0.6s;
         }
 
-       
+        /* Navegação por Teclado: Estilo do foco visível (WCAG 2.1.1) */
         *:focus {
             outline: 3px solid var(--color-primary);
             outline-offset: 2px;
             border-radius: 4px;
         }
-        .sr-only { 
+        .sr-only { /* Mantido para acessibilidade */
             position: absolute;
             width: 1px;
             height: 1px;
@@ -42,14 +42,14 @@
             border-width: 0;
         }
 
-   
+        /* Estilo do Menu Hamburger (mobile) */
         #navMenu {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.6s ease-out;
+            transition: max-height 0.3s ease-out;
         }
         #navMenu.open {
-            max-height: 300px; 
+            max-height: 300px; /* Expande o menu no mobile */
         }
         
         @media (min-width: 768px) {
@@ -59,23 +59,35 @@
             }
         }
 
-
+        /* Hero section custom style */
         .hero-home {
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.452), rgba(5, 150, 104, 0.37)), url('css/background.jpg');
             background-size: cover;
             background-position: center;
         }
 
+        /* Contraste e Temas Visuais: Implementação do modo escuro (Dark Mode) */
+        .dark {
+            background-color: var(--color-bg-dark);
+            color: var(--color-text-dark);
+        }
+        .dark .bg-white { background-color: #1F2937 !important; } 
+        .dark header, .dark footer { background-color: #1F2937 !important; }
+        .dark .text-gray-900 { color: var(--color-text-dark) !important; }
+        .dark .text-gray-600 { color: #91959c !important; }
+        .dark .bg-gray-100 { background-color: #1F2937 !important; } 
+        .dark .text-secondary { color: var(--color-primary) !important; }
 
+        /* NOVO: Estilo do Modal de Login */
         .modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.75); 
+            background-color: rgba(0, 0, 0, 0.75); /* Fundo escuro */
             display: none;
-            z-index: 1000; 
+            z-index: 1000; /* Garante que fique acima de tudo */
             align-items: center;
             justify-content: center;
         }
@@ -99,27 +111,27 @@
     </script>
 </head>
 
-<body class="bg-gray-50 text-gray-900 min-h-screen transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100">
+<body class="bg-gray-50 text-gray-900 min-h-screen transition-colors duration-300">
     
-    <header class="bg-white shadow-md sticky top-0 z-50 dark:bg-gray-800">
+    <header class="bg-white shadow-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
             <a href="#main-content" class="sr-only focus:not-sr-only p-2 text-sm text-primary underline">Ir para o Conteúdo Principal</a>
             <div class="text-2xl font-bold text-secondary">Bateria Zero Risco</div>
             
             <nav aria-label="Navegação Principal" class="flex items-center">
                 
-                <button class="menu-toggle md:hidden p-2 rounded-lg text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700" onclick="toggleMenu()" aria-expanded="false" aria-controls="navMenu">
+                <button class="menu-toggle md:hidden p-2 rounded-lg text-gray-900 hover:bg-gray-100" onclick="toggleMenu()" aria-expanded="false" aria-controls="navMenu">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                     <span class="sr-only">Abrir/Fechar Menu Principal</span> 
                 </button>
                 
-                <ul id="navMenu" class="absolute md:static top-full left-0 w-full md:w-auto bg-white md:bg-transparent shadow-lg md:shadow-none transition-all duration-300 ease-in-out md:flex md:space-x-4 dark:bg-gray-800 md:dark:bg-transparent">
+                <ul id="navMenu" class="absolute md:static top-full left-0 w-full md:w-auto bg-white md:bg-transparent shadow-lg md:shadow-none transition-all duration-300 ease-in-out md:flex md:space-x-4">
                     <li class="p-4 md:p-0"><a href="index.html" class="active-index text-primary font-semibold hover:underline block md:inline" aria-current="page">Início</a></li>
-                    <li class="p-4 md:p-0"><a href="projeto.html" class="active-projeto text-gray-600 hover:text-primary block md:inline dark:text-gray-300">Nossos Projetos</a></li>
-                    <li class="p-4 md:p-0"><a href="cadastro.html" class="active-cadastro text-gray-600 hover:text-primary block md:inline dark:text-gray-300">Faça parte você também!</a></li>
+                    <li class="p-4 md:p-0"><a href="projeto.html" class="active-projeto text-gray-600 hover:text-primary block md:inline">Nossos Projetos</a></li>
+                    <li class="p-4 md:p-0"><a href="cadastro.html" class="active-cadastro text-gray-600 hover:text-primary block md:inline">Faça parte você também!</a></li>
                     
                     <li class="p-4 md:p-0" id="login-btn-container">
-                        <button onclick="openLoginModal()" class="text-gray-600 hover:text-primary block md:inline font-semibold dark:text-gray-300">Login</button>
+                        <button onclick="openLoginModal()" class="text-gray-600 hover:text-primary block md:inline font-semibold">Login</button>
                     </li>
                     
                     <li class="p-4 md:p-0 hidden" id="logout-btn-container">
@@ -127,7 +139,7 @@
                     </li>
                     </ul>
 
-                <button id="theme-toggle" class="ml-4 p-2 rounded-full text-gray-600 hover:bg-gray-100 focus:ring-2 focus:ring-primary dark:text-gray-300 dark:hover:bg-gray-700" aria-label="Alternar para modo escuro/claro" onclick="toggleTheme()">
+                <button id="theme-toggle" class="ml-4 p-2 rounded-full text-gray-600 hover:bg-gray-100 focus:ring-2 focus:ring-primary" aria-label="Alternar para modo escuro/claro" onclick="toggleTheme()">
                     <svg id="theme-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                 </button>
             </nav>
@@ -151,15 +163,15 @@
         <section class="mb-12">
             <h2 class="text-3xl font-bold mb-8 border-b-2 border-primary pb-2">Nossos Projetos</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 dark:bg-gray-800 dark:border-gray-700">
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 dark:bg-[#1F2937]">
                     <h3 class="text-xl font-semibold text-secondary dark:text-primary">Coleta Inteligente</h3>
                     <p class="text-gray-600 dark:text-gray-400 mt-2">Uso de IoT para otimizar rotas de coleta de resíduos em centros urbanos.</p>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 dark:bg-gray-800 dark:border-gray-700">
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 dark:bg-[#1F2937]">
                     <h3 class="text-xl font-semibold text-secondary dark:text-primary">Educação Ambiental</h3>
                     <p class="text-gray-600 dark:text-gray-400 mt-2">Workshops e material didático para conscientizar a comunidade sobre o descarte correto.</p>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 dark:bg-gray-800 dark:border-gray-700">
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 dark:bg-[#1F2937]">
                     <h3 class="text-xl font-semibold text-secondary dark:text-primary">Certificação Sustentável</h3>
                     <p class="text-gray-600 dark:text-gray-400 mt-2">Selo de reconhecimento para empresas que aderem ao nosso ciclo de logística reversa.</p>
                 </div>
@@ -171,7 +183,7 @@
             </div>
         </section>
 
-        <section class="py-12 bg-gray-100 rounded-xl shadow-lg mt-12 dark:bg-gray-800">
+        <section class="py-12 bg-gray-100 dark:bg-[#1F2937] rounded-xl shadow-lg mt-12">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl font-bold mb-10 text-center border-b-2 border-secondary pb-2">Como Funciona o Ciclo Zero Risco</h2>
                 <div class="space-y-8 md:space-y-0 md:grid md:grid-cols-3 md:gap-8">
@@ -218,9 +230,9 @@
     </footer>
 
     <div id="loginModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-        <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-sm relative mx-4 dark:bg-gray-700">
+        <div class="bg-white dark:bg-[#1F2937] p-8 rounded-xl shadow-2xl w-full max-w-sm relative mx-4">
             
-            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:text-gray-300 dark:hover:text-gray-100" aria-label="Fechar formulário de Login">
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" aria-label="Fechar formulário de Login">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
 
@@ -231,15 +243,15 @@
                 <div>
                     <label for="username" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Usuário</label>
                     <input type="text" id="username" name="username" required 
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-600 dark:border-gray-500 dark:text-white"
-                                placeholder="Ex: admin, doador, voluntario">
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                            placeholder="Ex: admin, doador, voluntario">
                 </div>
                 
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Senha</label>
                     <input type="password" id="password" name="password" required 
-                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-600 dark:border-gray-500 dark:text-white"
-                                placeholder="Ex: admin123, doador123">
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                            placeholder="Ex: admin123, doador123">
                 </div>
 
                 <div class="pt-2">
@@ -254,17 +266,17 @@
         </div>
     </div>
     <script>
-
+        /** Lógica de toggle para o menu de navegação (mobile). */
         function toggleMenu() {
             const menu = document.getElementById('navMenu');
             const button = document.querySelector('.menu-toggle');
             const isExpanded = button.getAttribute('aria-expanded') === 'true';
-
+            // Ajustado para usar 'open' em vez de apenas toggle.
             menu.classList.toggle('open'); 
             button.setAttribute('aria-expanded', !isExpanded);
         }
 
-
+        /** Lógica para alternar o tema (Dark Mode/Alto Contraste). */
         function toggleTheme() {
             const html = document.documentElement;
             const isDark = html.classList.contains('dark');
@@ -279,7 +291,7 @@
             updateIcon(!isDark);
         }
 
-
+        /** Atualiza o ícone do botão de tema de acordo com o estado. */
         function updateIcon(isDark) {
             const iconContainer = document.getElementById('theme-icon');
             if (iconContainer) {
@@ -289,52 +301,57 @@
             }
         }
         
+        // ===============================================
+        // INÍCIO DAS NOVAS FUNÇÕES DE LOGIN/LOGOUT E ESTADO
+        // ===============================================
 
+        /** Abre o modal de login e foca no primeiro campo */
         function openLoginModal() {
             document.getElementById('loginModal').classList.add('open');
-            document.getElementById('username').focus(); 
+            document.getElementById('username').focus(); // Foca no campo usuário para acessibilidade
         }
 
+        /** Fecha o modal de login */
         function closeLoginModal() {
             document.getElementById('loginModal').classList.remove('open');
         }
 
-
+        /** Função para alternar a visibilidade de Login e Sair (Logout) no header. */
         function updateLoginStatus() {
-
+            // Verifica o estado no armazenamento local (simulação de sessão)
             const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
             const loginBtn = document.getElementById('login-btn-container');
             const logoutBtn = document.getElementById('logout-btn-container');
             
             if (loginBtn && logoutBtn) {
                 if (isLoggedIn) {
-
+                    // Se estiver logado, mostra Sair, esconde Login
                     loginBtn.classList.add('hidden');
                     logoutBtn.classList.remove('hidden');
                 } else {
-
+                    // Se estiver deslogado, mostra Login, esconde Sair
                     loginBtn.classList.remove('hidden');
                     logoutBtn.classList.add('hidden');
                 }
             }
         }
         
-
+        /** Lógica para fazer o Logout */
         function logOut() {
-
+            // 1. Limpa o estado de login
             localStorage.removeItem('isLoggedIn');
             localStorage.removeItem('currentUser');
             
-
+            // 2. Atualiza a interface (troca Sair por Login)
             updateLoginStatus();
             
-
+            // 3. Feedback para o usuário
             alert("Logout efetuado com sucesso.");
         }
         
-
+        /** Lógica de validação básica para o trabalho da faculdade (MODIFICADA PARA SALVAR ESTADO) */
         function handleLogin(event) {
-            event.preventDefault();
+            event.preventDefault(); // Impede o envio real do formulário
             
             const user = document.getElementById('username').value.toLowerCase();
             const pass = document.getElementById('password').value;
@@ -347,39 +364,42 @@
                 "visitante": "visita123" 
             };
             
-           
+            // Limpa mensagens anteriores
             feedback.textContent = "";
 
             if (validUsers[user] === pass) {
-             
+                // Sucesso
                 feedback.classList.remove('text-red-500');
                 feedback.classList.add('text-primary');
                 feedback.textContent = `Sucesso! Bem-vindo(a), ${user.charAt(0).toUpperCase() + user.slice(1)}.`;
                 
-
+                // SALVA O ESTADO DE LOGIN
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('currentUser', user);
 
-
+                // Simulação de redirecionamento/fechamento após um pequeno atraso
                 setTimeout(() => {
                     closeLoginModal();
-                    updateLoginStatus();
+                    updateLoginStatus(); // ATUALIZA A BARRA DE NAVEGAÇÃO
                     alert(`Login efetuado com sucesso como: ${user.toUpperCase()}`);
                 }, 1000);
 
             } else {
-                
+                // Falha
                 feedback.classList.remove('text-primary');
                 feedback.classList.add('text-red-500');
                 feedback.textContent = "Usuário ou Senha incorretos. Tente novamente.";
             }
         }
         
+        // ===============================================
+        // FIM DAS NOVAS FUNÇÕES DE LOGIN/LOGOUT E ESTADO
+        // ===============================================
 
 
-
+        /** Inicialização do Tema e do Foco de Navegação. */
         document.addEventListener('DOMContentLoaded', () => {
-
+            // INICIALIZA O ESTADO DO LOGIN AO CARREGAR A PÁGINA
             updateLoginStatus(); 
 
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -406,11 +426,11 @@
                 });
             }
             
-
+            // Fechar Modal ao clicar fora
             const loginModal = document.getElementById('loginModal');
             if (loginModal) {
                 loginModal.addEventListener('click', (e) => {
-
+                    // Se o clique for exatamente no fundo (o elemento #loginModal), feche.
                     if (e.target.id === 'loginModal') {
                         closeLoginModal();
                     }
