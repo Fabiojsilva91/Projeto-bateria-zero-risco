@@ -6,17 +6,17 @@
     <title>Cadastro - Bateria Zero Risco</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <script src="https://unpkg.com/imask@6.0.7/dist/imask.min.js"></script>
 
     <style>
-        
+        /* Configuração de fonte padrão e cores para contraste */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
         
         :root {
-            --color-primary: #10B981;
-            --color-secondary: #059669;
-            --color-text-light: #1F2937;
+            --color-primary: #10B981; /* Verde Esmeralda (Claro) */
+            --color-secondary: #059669; /* Verde mais escuro (Escuro) */
+            /* Outras variáveis não são mais estritamente necessárias, mas mantidas por segurança */
+            --color-text-light: #1F2937; 
             --color-text-dark: #F9FAFB;
             --color-bg-light: #F9FAFB;
             --color-bg-dark: #111827;
@@ -24,16 +24,16 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            transition: background-color 0.3s, color 0.3s;
+            transition: background-color 0.6s, color 0.6s; /* Transição suave no body */
         }
-
         
+        /* Navegação por Teclado: Estilo do foco visível (WCAG 2.1.1) */
         *:focus {
             outline: 3px solid var(--color-primary);
             outline-offset: 2px;
             border-radius: 4px;
         }
-        .sr-only {
+        .sr-only { 
             position: absolute;
             width: 1px;
             height: 1px;
@@ -45,14 +45,14 @@
             border-width: 0;
         }
 
-        
+        /* Estilo do Menu Hamburger (mobile) */
         #navMenu {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out;
         }
         #navMenu.open {
-            max-height: 300px; 
+            max-height: 300px; /* Expande o menu no mobile */
         }
         
         @media (min-width: 768px) {
@@ -62,30 +62,14 @@
             }
         }
       
+        /* Hero section custom style */
         .hero-cadastro {
             background: linear-gradient(135deg, rgba(5, 150, 105, 0.9), rgba(16, 185, 129, 0.8)), url('https://placehold.co/1200x500/059669/FFFFFF?text=Seja+Um+Parceiro+Sustentável');
             background-size: cover;
             background-position: center;
         }
-        
-        .dark input:not([type="checkbox"]), .dark select, .dark textarea {
-            background-color: #374151 !important; /* bg-gray-700 */
-            color: var(--color-text-dark) !important;
-            border-color: #4B5563 !important; /* border-gray-600 */
-        }
 
-        .dark {
-            background-color: var(--color-bg-dark);
-            color: var(--color-text-dark);
-        }
-        .dark .bg-white { background-color: #1F2937 !important; } 
-        .dark header, .dark footer { background-color: #1F2937 !important; }
-        .dark .text-gray-900 { color: var(--color-text-dark) !important; }
-        .dark .text-gray-600 { color: #D1D5DB !important; }
-        .dark .bg-gray-100 { background-color: #1F2937 !important; } 
-        .dark .text-secondary { color: var(--color-primary) !important; }
-
-
+        /* Estilo do Modal de Login */
         .modal {
             position: fixed;
             top: 0;
@@ -101,11 +85,21 @@
         .modal.open {
             display: flex;
         }
+
+        /* Removidas: 
+         - .dark input:not([type="checkbox"]), .dark select, .dark textarea
+         - .dark 
+         - .dark .bg-white
+         - .dark header, .dark footer
+         - .dark .text-gray-900, .dark .text-gray-600, .dark .text-secondary
+         - .dark .bg-gray-100 
+         *Todas substituídas por classes dark: no HTML* */
     </style>
     
     <script>
         tailwind.config = {
-            darkMode: 'class',
+            // MANTÉM: O dark mode está configurado para o estado da CLASSE 'dark' no elemento raiz (<html>)
+            darkMode: 'class', 
             theme: {
                 extend: {
                     colors: {
@@ -118,27 +112,27 @@
     </script>
 </head>
 
-<body class="bg-gray-50 text-gray-900 min-h-screen transition-colors duration-300">
+<body class="bg-gray-50 text-gray-900 min-h-screen transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100">
     
-    <header class="bg-white shadow-md sticky top-0 z-50">
+    <header class="bg-white shadow-md sticky top-0 z-50 dark:bg-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
             <a href="#main-content" class="sr-only focus:not-sr-only p-2 text-sm text-primary underline">Ir para o Conteúdo Principal</a>
             <div class="text-2xl font-bold text-secondary">Bateria Zero Risco</div>
             
             <nav aria-label="Navegação Principal" class="flex items-center">
                 
-                <button class="menu-toggle md:hidden p-2 rounded-lg text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-800" onclick="toggleMenu()" aria-expanded="false" aria-controls="navMenu">
+                <button class="menu-toggle md:hidden p-2 rounded-lg text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700" onclick="toggleMenu()" aria-expanded="false" aria-controls="navMenu">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                     <span class="sr-only">Abrir/Fechar Menu Principal</span> 
                 </button>
                 
-                <ul id="navMenu" class="absolute md:static top-full left-0 w-full md:w-auto bg-white md:bg-transparent shadow-lg md:shadow-none transition-all duration-300 ease-in-out md:flex md:space-x-4 dark:bg-[#1F2937] md:dark:bg-transparent">
-                    <li class="p-4 md:p-0"><a href="index.html" class="text-gray-600 hover:text-primary block md:inline dark:text-gray-400">Início</a></li>
-                    <li class="p-4 md:p-0"><a href="projeto.html" class="text-gray-600 hover:text-primary block md:inline dark:text-gray-400">Nossos Projetos</a></li>
+                <ul id="navMenu" class="absolute md:static top-full left-0 w-full md:w-auto bg-white md:bg-transparent shadow-lg md:shadow-none transition-all duration-300 ease-in-out md:flex md:space-x-4 dark:bg-gray-800 md:dark:bg-transparent">
+                    <li class="p-4 md:p-0"><a href="index.html" class="text-gray-600 hover:text-primary block md:inline dark:text-gray-300">Início</a></li>
+                    <li class="p-4 md:p-0"><a href="projeto.html" class="text-gray-600 hover:text-primary block md:inline dark:text-gray-300">Nossos Projetos</a></li>
                     <li class="p-4 md:p-0"><a href="cadastro.html" class="text-primary font-semibold hover:underline block md:inline" aria-current="page">Faça parte você também!</a></li>
                     
                     <li class="p-4 md:p-0" id="login-btn-container">
-                    <button onclick="openLoginModal(event)" class="..." id="open-login-btn">Login</button>
+                        <button onclick="openLoginModal(event)" class="text-gray-600 hover:text-primary block md:inline dark:text-gray-300" id="open-login-btn">Login</button>
                     </li>
                     
                     <li class="p-4 md:p-0 hidden" id="logout-btn-container">
@@ -146,7 +140,7 @@
                     </li>
                 </ul>
 
-                <button id="theme-toggle" class="ml-4 p-2 rounded-full text-gray-600 hover:bg-gray-100 focus:ring-2 focus:ring-primary dark:text-gray-400 dark:hover:bg-gray-800" aria-label="Alternar para modo escuro/claro" onclick="toggleTheme()">
+                <button id="theme-toggle" class="ml-4 p-2 rounded-full text-gray-600 hover:bg-gray-100 focus:ring-2 focus:ring-primary dark:text-gray-300 dark:hover:bg-gray-700" aria-label="Alternar para modo escuro/claro" onclick="toggleTheme()">
                     <svg id="theme-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                 </button>
             </nav>
@@ -162,16 +156,16 @@
     
     <main id="main-content" tabindex="-1" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         
-        <div class="max-w-3xl mx-auto bg-white dark:bg-[#1F2937] p-8 md:p-10 rounded-xl shadow-2xl">
+        <div class="max-w-3xl mx-auto bg-white p-8 md:p-10 rounded-xl shadow-2xl dark:bg-gray-800">
             <h2 class="text-3xl font-bold mb-6 text-center border-b-2 border-primary pb-2 text-gray-900 dark:text-white">Formulário de Adesão</h2>
             <p class="text-center text-gray-600 dark:text-gray-400 mb-8">Escolha a sua forma de participar da nossa logística reversa.</p>
             
             <div class="flex justify-center mb-10">
-                <div class="inline-flex rounded-xl shadow-md p-1 bg-gray-100 dark:bg-gray-800" role="group">
+                <div class="inline-flex rounded-xl shadow-md p-1 bg-gray-100 dark:bg-gray-700" role="group">
                     <button id="btn-individual" onclick="switchFormType('individual')" class="px-6 py-3 text-sm font-semibold rounded-xl transition-colors duration-200 active-tab-style">
                         Pessoa Física
                     </button>
-                    <button id="btn-business" onclick="switchFormType('business')" class="px-6 py-3 text-sm font-semibold rounded-xl transition-colors duration-200 text-gray-600 dark:text-gray-400 hover:bg-white/50 dark:hover:bg-gray-700">
+                    <button id="btn-business" onclick="switchFormType('business')" class="px-6 py-3 text-sm font-semibold rounded-xl transition-colors duration-200 text-gray-600 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-600">
                         Empresa / Logística Reversa
                     </button>
                 </div>
@@ -181,33 +175,33 @@
                 
                 <div>
                     <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300"><span id="name-label">Nome Completo</span> <span class="text-red-500">*</span></label>
-                    <input type="text" id="name" name="name" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150" placeholder="Seu nome ou Razão Social">
+                    <input type="text" id="name" name="name" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" placeholder="Seu nome ou Razão Social">
                 </div>
 
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">E-mail <span class="text-red-500">*</span></label>
-                    <input type="email" id="email" name="email" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150" placeholder="seu.email@exemplo.com">
+                    <input type="email" id="email" name="email" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" placeholder="seu.email@exemplo.com">
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Telefone <span class="text-red-500">*</span></label>
-                        <input type="tel" id="phone" name="phone" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150" placeholder="(XX) XXXXX-XXXX">
+                        <input type="tel" id="phone" name="phone" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" placeholder="(XX) XXXXX-XXXX">
                     </div>
                     <div>
                         <label for="city" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Cidade <span class="text-red-500">*</span></label>
-                        <input type="text" id="city" name="city" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150" placeholder="Sua cidade">
+                        <input type="text" id="city" name="city" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" placeholder="Sua cidade">
                     </div>
                 </div>
 
                 <div id="individual-fields" class="space-y-6">
                     <div>
                         <label for="age" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Idade <span class="text-red-500">*</span></label>
-                        <input type="number" id="age" name="age" min="18" max="120" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150" placeholder="Idade (mínimo 18)">
+                        <input type="number" id="age" name="age" min="18" max="120" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" placeholder="Idade (mínimo 18)">
                     </div>
                     <div>
                         <label for="interest" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Principal Interesse no Programa:</label>
-                        <select id="interest" name="interest" class="mt-1 block w-full px-4 py-3 border border-gray-300 bg-white dark:bg-[#374151] dark:text-gray-200 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150">
+                        <select id="interest" name="interest" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
                             <option value="coleta">Encontrar Pontos de Coleta</option>
                             <option value="educacao">Receber Material Educacional</option>
                             <option value="voluntariado">Voluntariado e Ações Locais</option>
@@ -218,11 +212,11 @@
                 <div id="business-fields" class="space-y-6 hidden">
                     <div>
                         <label for="cnpj" class="block text-sm font-medium text-gray-700 dark:text-gray-300">CNPJ <span class="text-red-500">*</span></label>
-                        <input type="text" id="cnpj" name="cnpj" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150" placeholder="XX.XXX.XXX/XXXX-XX">
+                        <input type="text" id="cnpj" name="cnpj" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" placeholder="XX.XXX.XXX/XXXX-XX">
                     </div>
                     <div>
-                        <label for="sector" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Setor de Atuação</label>
-                        <select id="sector" name="sector" class="mt-1 block w-full px-4 py-3 border border-gray-300 bg-white dark:bg-[#374151] dark:text-gray-200 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150">
+                         <label for="sector" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Setor de Atuação</label>
+                        <select id="sector" name="sector" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
                             <option value="industrial">Industrial</option>
                             <option value="varejo">Varejo/Comércio</option>
                             <option value="servicos">Serviços</option>
@@ -232,7 +226,7 @@
                     </div>
                     <div>
                         <label for="volume" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Volume Estimado de Resíduos (Mensal)</label>
-                        <textarea id="volume" name="volume" rows="3" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150" placeholder="Ex: 50kg de baterias de lítio e 10kg de pilhas alcalinas."></textarea>
+                        <textarea id="volume" name="volume" rows="3" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" placeholder="Ex: 50kg de baterias de lítio e 10kg de pilhas alcalinas."></textarea>
                     </div>
                 </div>
 
@@ -260,7 +254,7 @@
     </main>
     
     <div id="message-modal" class="fixed inset-0 bg-gray-600 bg-opacity-75 hidden flex items-center justify-center p-4 z-[1000]" role="dialog" aria-modal="true" aria-labelledby="message-title">
-        <div class="bg-white dark:bg-gray-700 rounded-xl p-8 max-w-sm w-full shadow-2xl transform transition-all">
+        <div class="bg-white rounded-xl p-8 max-w-sm w-full shadow-2xl transform transition-all dark:bg-gray-700">
             <h3 id="message-title" class="text-xl font-bold mb-4 text-gray-900 dark:text-white"></h3>
             <p id="message-body" class="text-gray-700 dark:text-gray-300 mb-6"></p>
             <button onclick="closeModal()" class="w-full py-2 px-4 bg-primary text-white font-semibold rounded-lg hover:bg-secondary transition duration-150">
@@ -270,9 +264,9 @@
     </div>
 
     <div id="loginModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-        <div class="bg-white dark:bg-[#1F2937] p-8 rounded-xl shadow-2xl w-full max-w-sm relative mx-4">
+        <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-sm relative mx-4 dark:bg-gray-700">
             
-            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" aria-label="Fechar formulário de Login">
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:text-gray-300 dark:hover:text-gray-100" aria-label="Fechar formulário de Login">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
 
@@ -283,15 +277,15 @@
                 <div>
                     <label for="username" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Usuário</label>
                     <input type="text" id="username" name="username" required 
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                            placeholder="Ex: admin, doador, voluntario">
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                                placeholder="Ex: admin, doador, voluntario">
                 </div>
                 
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Senha</label>
                     <input type="password" id="password" name="password" required 
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                            placeholder="Ex: admin123, doador123">
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-600 dark:border-gray-500 dark:text-white"
+                                placeholder="Ex: admin123, doador123">
                 </div>
 
                 <div class="pt-2">
@@ -316,10 +310,11 @@
     </footer>
 
     <script>
-
         let phoneMask, cnpjMask; 
+        // ATENÇÃO: A classe ativa foi ligeiramente ajustada para o dark mode, 
+        // usando dark:bg-gray-700 em vez de dark:bg-[#1F2937] para consistência com o restante.
         const activeClass = "bg-white text-primary shadow-lg ring-2 ring-primary/50 dark:bg-gray-700 dark:text-primary";
-        const inactiveClass = "text-gray-600 dark:text-gray-400 hover:bg-white/50 dark:hover:bg-gray-700";
+        const inactiveClass = "text-gray-600 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-600";
         
 
         function showMessage(title, message, isSuccess = true) {
@@ -445,6 +440,7 @@
             const cnpjInput = document.getElementById('cnpj');
 
             [btnIndividual, btnBusiness].forEach(btn => {
+                // Remove ambas as classes (ativa e inativa)
                 btn.classList.remove(...activeClass.split(' '), ...inactiveClass.split(' '));
             });
 
@@ -452,7 +448,9 @@
                 individualFields.classList.remove('hidden');
                 businessFields.classList.add('hidden');
                 nameLabel.textContent = 'Nome Completo';
+                // Adiciona a classe ativa
                 btnIndividual.classList.add(...activeClass.split(' '));
+                // Adiciona a classe inativa
                 btnBusiness.classList.add(...inactiveClass.split(' '));
                 
                 ageInput.setAttribute('required', 'required');
@@ -462,7 +460,9 @@
                 individualFields.classList.add('hidden');
                 businessFields.classList.remove('hidden');
                 nameLabel.textContent = 'Razão Social';
+                // Adiciona a classe ativa
                 btnBusiness.classList.add(...activeClass.split(' '));
+                // Adiciona a classe inativa
                 btnIndividual.classList.add(...inactiveClass.split(' '));
                 
                 cnpjInput.setAttribute('required', 'required');
@@ -472,7 +472,6 @@
         
 
         window.openLoginModal = function(e) {
-            // A lógica de lastFocusedElement foi removida para simplificar
             document.getElementById('loginModal').classList.add('open');
             const username = document.getElementById('username');
             if (username) username.focus();
