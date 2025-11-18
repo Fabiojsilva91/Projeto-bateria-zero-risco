@@ -72,3 +72,57 @@ window.handleSubmit = async function(event) {
         showMessage("Erro", "Ocorreu um erro na lógica de envio. Verifique o console.", false);
     }
 }
+
+function createPilhaChart() {
+    const container = document.getElementById('pilhaGraphContainer');
+    if (!container) return;
+    
+    
+    const monthlyData = [
+        { label: 'Julho', value: 12500, max: 20000 },
+        { label: 'Agosto', value: 18000, max: 20000 },
+        { label: 'Setembro', value: 15500, max: 20000 }
+    ];
+
+    container.innerHTML = ''; 
+
+    monthlyData.forEach(item => {
+
+        const percentage = Math.round((item.value / item.max) * 100);
+        
+        
+        const barWrapper = document.createElement('div');
+        barWrapper.className = 'flex flex-col items-center mx-2';
+        
+       
+        const valueText = document.createElement('span');
+        valueText.className = 'mb-1 text-xs font-semibold dark:text-gray-300';
+        valueText.textContent = `R$ ${item.value.toLocaleString('pt-BR')}`;
+        
+      
+        const bar = document.createElement('div');
+        bar.className = 'pilha-bar w-10 bg-primary shadow-lg';
+        bar.style.height = `${percentage}%`; 
+        
+      
+        const labelText = document.createElement('span');
+        labelText.className = 'mt-2 text-sm font-medium dark:text-gray-300';
+        labelText.textContent = item.label;
+
+        barWrapper.appendChild(valueText);
+        barWrapper.appendChild(bar);
+        barWrapper.appendChild(labelText);
+        container.appendChild(barWrapper);
+    });
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+   
+    createPilhaChart();
+});
+
+function toggleTheme() {
+
+}
+
