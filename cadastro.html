@@ -14,12 +14,12 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
         
         :root {
-            --color-primary: #10B981;
-            --color-secondary: #059669;
-            --color-text-light: #1F2937;
-            --color-text-dark: #F9FAFB;
-            --color-bg-light: #F9FAFB;
-            --color-bg-dark: #111827;
+            --color-primary: #10B981; /* green-500 */
+            --color-secondary: #059669; /* green-600 */
+            --color-text-light: #1F2937; /* gray-800 */
+            --color-text-dark: #F9FAFB; /* gray-50 */
+            --color-bg-light: #F9FAFB; /* gray-50 */
+            --color-bg-dark: #121212; /* Cor mais escura para o fundo do body */
         }
 
         body {
@@ -28,6 +28,7 @@
         }
 
         
+        /* Ajuste do foco para melhor acessibilidade */
         *:focus {
             outline: 3px solid var(--color-primary);
             outline-offset: 2px;
@@ -46,6 +47,7 @@
         }
 
         
+        /* Estilos do Menu para Mobile */
         #navMenu {
             max-height: 0;
             overflow: hidden;
@@ -61,31 +63,73 @@
                 overflow: visible !important;
             }
         }
-      
+        
+        /* Estilos da Seção Hero */
         .hero-cadastro {
             background: linear-gradient(135deg, rgba(5, 150, 105, 0.9), rgba(16, 185, 129, 0.8)), url('https://placehold.co/1200x500/059669/FFFFFF?text=Seja+Um+Parceiro+Sustentável');
             background-size: cover;
             background-position: center;
         }
         
+        /* === AJUSTES DO DARK MODE === */
+        
+        /* Inputs, Selects e Textareas */
         .dark input:not([type="checkbox"]), .dark select, .dark textarea {
-            background-color: #374151 !important; /* bg-gray-700 */
+            background-color: #374151 !important; /* gray-700 */
             color: var(--color-text-dark) !important;
-            border-color: #4B5563 !important; /* border-gray-600 */
+            border-color: #4B5563 !important; /* gray-600 */
         }
 
+        /* Fundo do Body e Cor de Texto Global */
         .dark {
-            background-color: var(--color-bg-dark);
-            color: var(--color-text-dark);
+            background-color: var(--color-bg-dark); /* Fundo muito escuro */
+            color: var(--color-text-dark); /* Texto claro */
         }
-        .dark .bg-white { background-color: #1F2937 !important; } 
-        .dark header, .dark footer { background-color: #1F2937 !important; }
-        .dark .text-gray-900 { color: var(--color-text-dark) !important; }
-        .dark .text-gray-600 { color: #D1D5DB !important; }
-        .dark .bg-gray-100 { background-color: #1F2937 !important; } 
-        .dark .text-secondary { color: var(--color-primary) !important; }
+        
+        /* Sobrescrever a classe bg-gray-50 do body (que o body usa por padrão) */
+        .dark .bg-gray-50 {
+             background-color: var(--color-bg-dark) !important; 
+        }
+
+        /* Elementos com fundo branco no Light Mode */
+        .dark .bg-white { 
+            background-color: #1F2937 !important; /* gray-800 */
+        } 
+        
+        /* Header e Footer (que usavam bg-white/bg-gray-800) */
+        .dark header, .dark footer { 
+            background-color: #1F2937 !important; /* gray-800 */
+        }
+        
+        /* Cores de Texto Padrão (Light Mode) */
+        .dark .text-gray-900 { 
+            color: var(--color-text-dark) !important; 
+        } /* Títulos, etc. */
+        .dark .text-gray-700 { 
+            color: #D1D5DB !important; /* gray-300 */ 
+        } /* Labels de Formulário */
+        .dark .text-gray-600 { 
+            color: #9CA3AF !important; /* gray-400 */ 
+        } /* Textos secundários, links de navegação */
+        
+        /* Elementos com fundo cinza claro */
+        .dark .bg-gray-100 { 
+            background-color: #1F2937 !important; /* gray-800 */
+        } 
+        
+        /* Aba Ativa (Business/Individual) - Ajuste a cor de fundo para dark mode, mantendo a borda/texto primário */
+        .dark .active-tab-style { 
+            background-color: #374151 !important; /* gray-700 */
+            color: var(--color-primary) !important;
+        }
+
+        /* Estilo da Tabela de Seleção (Individual/Business) - o estilo da aba ativa é aplicado via JS, mas o hover/inativo está aqui */
+        .dark .inline-flex button {
+            transition: background-color 0.2s, color 0.2s;
+        }
 
 
+        /* Estilos dos Modais */
         .modal {
             position: fixed;
             top: 0;
@@ -127,18 +171,18 @@
             
             <nav aria-label="Navegação Principal" class="flex items-center">
                 
-                <button class="menu-toggle md:hidden p-2 rounded-lg text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-800" onclick="toggleMenu()" aria-expanded="false" aria-controls="navMenu">
+                <button class="menu-toggle md:hidden p-2 rounded-lg text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-700" onclick="toggleMenu()" aria-expanded="false" aria-controls="navMenu">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                     <span class="sr-only">Abrir/Fechar Menu Principal</span> 
                 </button>
                 
-                <ul id="navMenu" class="absolute md:static top-full left-0 w-full md:w-auto bg-white md:bg-transparent shadow-lg md:shadow-none transition-all duration-300 ease-in-out md:flex md:space-x-4 dark:bg-[#1F2937] md:dark:bg-transparent">
+                <ul id="navMenu" class="absolute md:static top-full left-0 w-full md:w-auto bg-white md:bg-transparent shadow-lg md:shadow-none transition-all duration-300 ease-in-out dark:bg-[#1F2937] md:dark:bg-transparent md:flex md:space-x-4">
                     <li class="p-4 md:p-0"><a href="index.html" class="text-gray-600 hover:text-primary block md:inline dark:text-gray-400">Início</a></li>
                     <li class="p-4 md:p-0"><a href="projeto.html" class="text-gray-600 hover:text-primary block md:inline dark:text-gray-400">Nossos Projetos</a></li>
                     <li class="p-4 md:p-0"><a href="cadastro.html" class="text-primary font-semibold hover:underline block md:inline" aria-current="page">Faça parte você também!</a></li>
                     
                     <li class="p-4 md:p-0" id="login-btn-container">
-                    <button onclick="openLoginModal(event)" class="..." id="open-login-btn">Login</button>
+                    <button onclick="openLoginModal(event)" class="text-gray-600 hover:text-primary dark:text-gray-400 dark:hover:text-primary" id="open-login-btn">Login</button>
                     </li>
                     
                     <li class="p-4 md:p-0 hidden" id="logout-btn-container">
@@ -146,7 +190,7 @@
                     </li>
                 </ul>
 
-                <button id="theme-toggle" class="ml-4 p-2 rounded-full text-gray-600 hover:bg-gray-100 focus:ring-2 focus:ring-primary dark:text-gray-400 dark:hover:bg-gray-800" aria-label="Alternar para modo escuro/claro" onclick="toggleTheme()">
+                <button id="theme-toggle" class="ml-4 p-2 rounded-full text-gray-600 hover:bg-gray-100 focus:ring-2 focus:ring-primary dark:text-gray-400 dark:hover:bg-gray-700" aria-label="Alternar para modo escuro/claro" onclick="toggleTheme()">
                     <svg id="theme-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                 </button>
             </nav>
@@ -162,12 +206,12 @@
     
     <main id="main-content" tabindex="-1" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         
-        <div class="max-w-3xl mx-auto bg-white dark:bg-[#1F2937] p-8 md:p-10 rounded-xl shadow-2xl">
+        <div class="max-w-3xl mx-auto bg-white dark:bg-gray-800 p-8 md:p-10 rounded-xl shadow-2xl">
             <h2 class="text-3xl font-bold mb-6 text-center border-b-2 border-primary pb-2 text-gray-900 dark:text-white">Formulário de Adesão</h2>
             <p class="text-center text-gray-600 dark:text-gray-400 mb-8">Escolha a sua forma de participar da nossa logística reversa.</p>
             
             <div class="flex justify-center mb-10">
-                <div class="inline-flex rounded-xl shadow-md p-1 bg-gray-100 dark:bg-gray-800" role="group">
+                <div class="inline-flex rounded-xl shadow-md p-1 bg-gray-100 dark:bg-gray-900" role="group">
                     <button id="btn-individual" onclick="switchFormType('individual')" class="px-6 py-3 text-sm font-semibold rounded-xl transition-colors duration-200 active-tab-style">
                         Pessoa Física
                     </button>
@@ -207,7 +251,7 @@
                     </div>
                     <div>
                         <label for="interest" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Principal Interesse no Programa:</label>
-                        <select id="interest" name="interest" class="mt-1 block w-full px-4 py-3 border border-gray-300 bg-white dark:bg-[#374151] dark:text-gray-200 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150">
+                        <select id="interest" name="interest" class="mt-1 block w-full px-4 py-3 border border-gray-300 bg-white rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150">
                             <option value="coleta">Encontrar Pontos de Coleta</option>
                             <option value="educacao">Receber Material Educacional</option>
                             <option value="voluntariado">Voluntariado e Ações Locais</option>
@@ -222,7 +266,7 @@
                     </div>
                     <div>
                         <label for="sector" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Setor de Atuação</label>
-                        <select id="sector" name="sector" class="mt-1 block w-full px-4 py-3 border border-gray-300 bg-white dark:bg-[#374151] dark:text-gray-200 rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150">
+                        <select id="sector" name="sector" class="mt-1 block w-full px-4 py-3 border border-gray-300 bg-white rounded-lg shadow-sm focus:ring-primary focus:border-primary transition duration-150">
                             <option value="industrial">Industrial</option>
                             <option value="varejo">Varejo/Comércio</option>
                             <option value="servicos">Serviços</option>
@@ -260,7 +304,7 @@
     </main>
     
     <div id="message-modal" class="fixed inset-0 bg-gray-600 bg-opacity-75 hidden flex items-center justify-center p-4 z-[1000]" role="dialog" aria-modal="true" aria-labelledby="message-title">
-        <div class="bg-white dark:bg-gray-700 rounded-xl p-8 max-w-sm w-full shadow-2xl transform transition-all">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-8 max-w-sm w-full shadow-2xl transform transition-all">
             <h3 id="message-title" class="text-xl font-bold mb-4 text-gray-900 dark:text-white"></h3>
             <p id="message-body" class="text-gray-700 dark:text-gray-300 mb-6"></p>
             <button onclick="closeModal()" class="w-full py-2 px-4 bg-primary text-white font-semibold rounded-lg hover:bg-secondary transition duration-150">
@@ -270,9 +314,9 @@
     </div>
 
     <div id="loginModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-        <div class="bg-white dark:bg-[#1F2937] p-8 rounded-xl shadow-2xl w-full max-w-sm relative mx-4">
+        <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-2xl w-full max-w-sm relative mx-4">
             
-            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" aria-label="Fechar formulário de Login">
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:text-gray-300 dark:hover:text-white" aria-label="Fechar formulário de Login">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
 
@@ -283,14 +327,14 @@
                 <div>
                     <label for="username" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Usuário</label>
                     <input type="text" id="username" name="username" required 
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                             placeholder="Ex: admin, doador, voluntario">
                 </div>
                 
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Senha</label>
                     <input type="password" id="password" name="password" required 
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                             placeholder="Ex: admin123, doador123">
                 </div>
 
@@ -318,6 +362,7 @@
     <script>
 
         let phoneMask, cnpjMask; 
+        // Atualizei a classe ativa para usar dark:bg-gray-700
         const activeClass = "bg-white text-primary shadow-lg ring-2 ring-primary/50 dark:bg-gray-700 dark:text-primary";
         const inactiveClass = "text-gray-600 dark:text-gray-400 hover:bg-white/50 dark:hover:bg-gray-700";
         
