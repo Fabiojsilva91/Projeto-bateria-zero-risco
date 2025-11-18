@@ -509,3 +509,55 @@ footer {
         max-width: 90%;
     }
 }
+
+
+.pilha-bar {
+    
+    position: relative;
+    border-radius: 6px 6px 0 0;
+    overflow: hidden; 
+    transition: height 1s ease-out; 
+    
+    border: 2px solid var(--color-secondary); 
+    background-color: #e0e0e0; 
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); 
+}
+
+
+.pilha-bar::before {
+    content: '';
+    position: absolute;
+    bottom: 0; 
+    left: 0;
+    right: 0;
+    
+
+    height: 100%; 
+    
+
+    background-color: var(--color-primary); 
+    
+
+    box-shadow: 0 0 10px rgba(124, 252, 0, 0.7); 
+    transition: inherit; 
+}
+
+
+
+.pilha-bar::after {
+    content: '';
+    position: absolute;
+    top: -7px; 
+    left: 25%;
+    right: 25%;
+    height: 7px;
+    
+    
+    background-color: var(--color-secondary); 
+    
+    border-radius: 2px 2px 0 0;
+    z-index: 20; 
+    
+    
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5); 
+}
