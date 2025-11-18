@@ -7,14 +7,14 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Configuração de fonte padrão e cores para contraste */
+
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
         
         :root {
-            --color-primary: #10B981; /* Verde Esmeralda (Claro) */
-            --color-secondary: #059669; /* Verde mais escuro (Escuro) */
-            --color-text-light: #1F2937; /* Cinza escuro */
-            --color-text-dark: #e5e7eb; /* Quase branco */
+            --color-primary: #10B981; 
+            --color-secondary: #059669; 
+            --color-text-light: #1F2937; 
+            --color-text-dark: #e5e7eb; 
             --color-bg-light: #F9FAFB;
             --color-bg-dark: #111827;
         }
@@ -24,13 +24,13 @@
             transition: background-color 0.6s, color 0.6s;
         }
 
-        /* Navegação por Teclado: Estilo do foco visível (WCAG 2.1.1) */
+       
         *:focus {
             outline: 3px solid var(--color-primary);
             outline-offset: 2px;
             border-radius: 4px;
         }
-        .sr-only { /* Mantido para acessibilidade */
+        .sr-only { 
             position: absolute;
             width: 1px;
             height: 1px;
@@ -42,14 +42,14 @@
             border-width: 0;
         }
 
-        /* Estilo do Menu Hamburger (mobile) */
+   
         #navMenu {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out;
         }
         #navMenu.open {
-            max-height: 300px; /* Expande o menu no mobile */
+            max-height: 300px; 
         }
         
         @media (min-width: 768px) {
@@ -59,25 +59,23 @@
             }
         }
 
-        /* Hero section custom style */
+
         .hero-home {
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.452), rgba(5, 150, 104, 0.37)), url('css/background.jpg');
             background-size: cover;
             background-position: center;
         }
 
-        /* REMOVEMOS AS CLASSES CSS .dark ANTIGAS E VAMOS USAR O TAILWIND dark: */
-        
-        /* NOVO: Estilo do Modal de Login */
+
         .modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.75); /* Fundo escuro */
+            background-color: rgba(0, 0, 0, 0.75); 
             display: none;
-            z-index: 1000; /* Garante que fique acima de tudo */
+            z-index: 1000; 
             align-items: center;
             justify-content: center;
         }
@@ -256,17 +254,17 @@
         </div>
     </div>
     <script>
-        /** Lógica de toggle para o menu de navegação (mobile). */
+
         function toggleMenu() {
             const menu = document.getElementById('navMenu');
             const button = document.querySelector('.menu-toggle');
             const isExpanded = button.getAttribute('aria-expanded') === 'true';
-            // Ajustado para usar 'open' em vez de apenas toggle.
+
             menu.classList.toggle('open'); 
             button.setAttribute('aria-expanded', !isExpanded);
         }
 
-        /** Lógica para alternar o tema (Dark Mode/Alto Contraste). */
+
         function toggleTheme() {
             const html = document.documentElement;
             const isDark = html.classList.contains('dark');
@@ -281,7 +279,7 @@
             updateIcon(!isDark);
         }
 
-        /** Atualiza o ícone do botão de tema de acordo com o estado. */
+
         function updateIcon(isDark) {
             const iconContainer = document.getElementById('theme-icon');
             if (iconContainer) {
@@ -291,57 +289,52 @@
             }
         }
         
-        // ===============================================
-        // INÍCIO DAS NOVAS FUNÇÕES DE LOGIN/LOGOUT E ESTADO
-        // ===============================================
 
-        /** Abre o modal de login e foca no primeiro campo */
         function openLoginModal() {
             document.getElementById('loginModal').classList.add('open');
-            document.getElementById('username').focus(); // Foca no campo usuário para acessibilidade
+            document.getElementById('username').focus(); 
         }
 
-        /** Fecha o modal de login */
         function closeLoginModal() {
             document.getElementById('loginModal').classList.remove('open');
         }
 
-        /** Função para alternar a visibilidade de Login e Sair (Logout) no header. */
+
         function updateLoginStatus() {
-            // Verifica o estado no armazenamento local (simulação de sessão)
+
             const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
             const loginBtn = document.getElementById('login-btn-container');
             const logoutBtn = document.getElementById('logout-btn-container');
             
             if (loginBtn && logoutBtn) {
                 if (isLoggedIn) {
-                    // Se estiver logado, mostra Sair, esconde Login
+
                     loginBtn.classList.add('hidden');
                     logoutBtn.classList.remove('hidden');
                 } else {
-                    // Se estiver deslogado, mostra Login, esconde Sair
+
                     loginBtn.classList.remove('hidden');
                     logoutBtn.classList.add('hidden');
                 }
             }
         }
         
-        /** Lógica para fazer o Logout */
+
         function logOut() {
-            // 1. Limpa o estado de login
+
             localStorage.removeItem('isLoggedIn');
             localStorage.removeItem('currentUser');
             
-            // 2. Atualiza a interface (troca Sair por Login)
+
             updateLoginStatus();
             
-            // 3. Feedback para o usuário
+
             alert("Logout efetuado com sucesso.");
         }
         
-        /** Lógica de validação básica para o trabalho da faculdade (MODIFICADA PARA SALVAR ESTADO) */
+
         function handleLogin(event) {
-            event.preventDefault(); // Impede o envio real do formulário
+            event.preventDefault();
             
             const user = document.getElementById('username').value.toLowerCase();
             const pass = document.getElementById('password').value;
@@ -354,23 +347,23 @@
                 "visitante": "visita123" 
             };
             
-            // Limpa mensagens anteriores
+           
             feedback.textContent = "";
 
             if (validUsers[user] === pass) {
-                // Sucesso
+             
                 feedback.classList.remove('text-red-500');
                 feedback.classList.add('text-primary');
                 feedback.textContent = `Sucesso! Bem-vindo(a), ${user.charAt(0).toUpperCase() + user.slice(1)}.`;
                 
-                // SALVA O ESTADO DE LOGIN
+
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('currentUser', user);
 
-                // Simulação de redirecionamento/fechamento após um pequeno atraso
+
                 setTimeout(() => {
                     closeLoginModal();
-                    updateLoginStatus(); // ATUALIZA A BARRA DE NAVEGAÇÃO
+                    updateLoginStatus();
                     alert(`Login efetuado com sucesso como: ${user.toUpperCase()}`);
                 }, 1000);
 
@@ -382,14 +375,11 @@
             }
         }
         
-        // ===============================================
-        // FIM DAS NOVAS FUNÇÕES DE LOGIN/LOGOUT E ESTADO
-        // ===============================================
 
 
-        /** Inicialização do Tema e do Foco de Navegação. */
+
         document.addEventListener('DOMContentLoaded', () => {
-            // INICIALIZA O ESTADO DO LOGIN AO CARREGAR A PÁGINA
+
             updateLoginStatus(); 
 
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -416,11 +406,11 @@
                 });
             }
             
-            // Fechar Modal ao clicar fora
+
             const loginModal = document.getElementById('loginModal');
             if (loginModal) {
                 loginModal.addEventListener('click', (e) => {
-                    // Se o clique for exatamente no fundo (o elemento #loginModal), feche.
+
                     if (e.target.id === 'loginModal') {
                         closeLoginModal();
                     }
