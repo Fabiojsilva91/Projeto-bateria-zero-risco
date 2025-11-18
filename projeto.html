@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Conheça os projetos sociais e ambientais da Bateria Zero Risco: Reflorestamento, Sopão Solidário e Doar é Amar. Participe!">
     <title>Projetos | Bateria Zero Risco</title>
     
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Configuração de fonte padrão e cores para contraste */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
@@ -15,13 +15,19 @@
             --color-secondary: #059669; /* Verde mais escuro (Escuro) */
             --color-text-light: #0b0e11; /* Cinza escuro */
             --color-text-dark: #cec4c4; /* Quase branco */
-            --color-bg-light: #242a30; /* Variável não usada, mas mantida */
-            --color-bg-dark: #111827;
+            --color-bg-light: #f9fafb; /* Cor da classe Tailwind bg-gray-50 */
+            --color-bg-dark: #111827; /* Cor de fundo escura (Dark Blue/Gray) */
+            --color-bg-card-dark: #1F2937; /* Cor dos cartões (Dark Gray 800) */
         }
 
         body {
             font-family: 'Inter', sans-serif;
             transition: background-color 0.5s, color 0.5s;
+            /* ADICIONADO: Define o fundo padrão (Light Mode) aqui, 
+               pois a classe 'bg-gray-50' foi removida do HTML.
+            */
+            background-color: var(--color-bg-light);
+            color: var(--color-text-light);
         }
 
         /* Navegação por Teclado: Estilo do foco visível (WCAG 2.1.1) */
@@ -59,20 +65,24 @@
             }
         }
 
-        /* Dark Mode */
-        .dark {
-            background-color: var(--color-bg-dark); /* Usando var */
-            color: var(--color-text-dark);
+        /* AJUSTADO: O seletor '.dark body' garante que o background 
+           e o texto do corpo sejam alterados.
+        */
+        .dark body {
+            background-color: var(--color-bg-dark); /* Cor de fundo escura aplicada ao corpo */
+            color: var(--color-text-dark); /* Cor do texto clara aplicada ao corpo */
         }
-        /* Ajuste de cores para Dark Mode, garantindo contraste */
-        .dark .bg-white { background-color: #1F2937 !important; } 
-        .dark header, .dark footer { background-color: #1F2937 !important; }
+
+        /* Dark Mode - Regras para elementos internos */
+        .dark .bg-white { background-color: var(--color-bg-card-dark) !important; } 
+        .dark header { background-color: var(--color-bg-card-dark) !important; } /* Corrigido para usar a variável */
+        .dark footer { background-color: var(--color-bg-dark) !important; } /* Usando a cor de fundo mais escura para o footer */
         .dark .text-gray-900 { color: var(--color-text-dark) !important; }
         .dark .text-gray-600 { color: #fdfeff !important; }
-        .dark .bg-gray-100 { background-color: #1F2937 !important; } 
+        .dark .bg-gray-100 { background-color: var(--color-bg-card-dark) !important; } 
         .dark .text-secondary { color: var(--color-primary) !important; }
 
-        /* Estilo do Modal de Login */
+        /* Estilo do Modal de Login (Mantido) */
         .modal {
             position: fixed;
             top: 0;
@@ -105,19 +115,19 @@
     </script>
 </head>
 
-<body class="bg-gray-50 text-gray-900 min-h-screen transition-colors duration-300">
+<body class="text-gray-900 min-h-screen transition-colors duration-300"> 
 
-
-    <header class="bg-white shadow-md sticky top-0 z-50" role="banner">
+    <header class="bg-white shadow-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
             <a href="#main-content" class="sr-only focus:not-sr-only p-2 text-sm text-primary underline">Ir para o Conteúdo Principal</a>
             <div class="text-2xl font-bold text-secondary">Bateria Zero Risco</div>
             
             <nav aria-label="Navegação Principal" class="flex items-center">
                 
-                <button class="menu-toggle md:hidden p-2 rounded-lg text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" onclick="toggleMenu()" aria-expanded="false" aria-controls="navMenu" aria-label="Abrir/Fechar Menu Principal">
+                <button class="menu-toggle md:hidden p-2 rounded-lg text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" onclick="toggleMenu()" aria-expanded="false" aria-controls="navMenu">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                    </button>
+                    <span class="sr-only">Abrir/Fechar Menu Principal</span> 
+                </button>
                 
                 <ul id="navMenu" class="absolute md:static top-full left-0 w-full md:w-auto bg-white dark:bg-gray-800 md:bg-transparent shadow-lg md:shadow-none transition-all duration-300 ease-in-out md:flex md:space-x-4">
                     <li class="p-4 md:p-0"><a href="index.html" class="text-gray-600 hover:text-primary block md:inline">Início</a></li>
@@ -125,7 +135,7 @@
                     <li class="p-4 md:p-0"><a href="cadastro.html" class="text-gray-600 hover:text-primary block md:inline">Faça parte você também!</a></li>
                     
                     <li class="p-4 md:p-0" id="login-btn-container">
-                        <button id="main-login-btn" onclick="openLoginModal()" class="text-gray-600 hover:text-primary block md:inline font-semibold">Login</button>
+                        <button onclick="openLoginModal()" class="text-gray-600 hover:text-primary block md:inline font-semibold">Login</button>
                     </li>
                     
                     <li class="p-4 md:p-0 hidden" id="logout-btn-container">
@@ -162,11 +172,11 @@
         <section class="galeria py-12">
             <h2 class="text-3xl font-bold mb-8 text-center border-b-2 border-primary pb-2">Galeria de Imagens</h2>
             <div class="galeria-grid grid grid-cols-2 sm:grid-cols-4 gap-4">
-                <img src="https://picsum.photos/400/250?random=1" alt="Voluntários plantando mudas de árvores em área de reflorestamento" loading="lazy" class="rounded-lg shadow-md w-full h-full object-cover">
-                <img src="https://picsum.photos/400/250?random=2" alt="Distribuição de sopas e refeições em área urbana" loading="lazy" class="rounded-lg shadow-md w-full h-full object-cover">
-                <img src="https://picsum.photos/400/250?random=3" alt="Crianças recebendo doações de brinquedos e roupas" loading="lazy" class="rounded-lg shadow-md w-full h-full object-cover">
-                <img src="https://picsum.photos/400/250?random=4" alt="Pessoas da comunidade em evento de conscientização ambiental" loading="lazy" class="rounded-lg shadow-md w-full h-full object-cover">
-                <img src="https://picsum.photos/400/250?random=5" alt="Grupo de voluntários organizando alimentos em cestas básicas" loading="lazy" class="rounded-lg shadow-md w-full h-full object-cover">
+                <img src="https://picsum.photos/400/250?random=1" alt="Foto 1" class="rounded-lg shadow-md w-full h-full object-cover">
+                <img src="https://picsum.photos/400/250?random=2" alt="Foto 2" class="rounded-lg shadow-md w-full h-full object-cover">
+                <img src="https://picsum.photos/400/250?random=3" alt="Foto 3" class="rounded-lg shadow-md w-full h-full object-cover">
+                <img src="https://picsum.photos/400/250?random=4" alt="Foto 4" class="rounded-lg shadow-md w-full h-full object-cover">
+                <img src="https://picsum.photos/400/250?random=5" alt="Foto 5" class="rounded-lg shadow-md w-full h-full object-cover">
             </div>
         </section>
         </main>
@@ -179,13 +189,13 @@
             <p><strong>Doações:</strong> Chave PIX - 11.111.111/0001-11</p>
             <p class="copy mt-4">&copy; 2025 Bateria Zero Risco - Todos os direitos reservados.
                 <br>
-                <a href="/politica-de-privacidade.html" class="text-primary hover:text-green-400 underline">Política de Privacidade e Acessibilidade</a>
+                <a href="#" class="text-primary hover:text-green-400 underline">Política de Privacidade e Acessibilidade</a>
             </p>
         </div>
     </footer>
 
     <div id="loginModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-        <div class="bg-white dark:bg-[#1F2937] p-8 rounded-xl shadow-2xl w-full max-w-sm relative mx-4" tabindex="-1"> 
+        <div class="bg-white dark:bg-[--color-bg-card-dark] p-8 rounded-xl shadow-2xl w-full max-w-sm relative mx-4">
             
             <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" aria-label="Fechar formulário de Login">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -220,12 +230,9 @@
             </form>
         </div>
     </div>
-    <script src="https://cdn.tailwindcss.com"></script>
+
     <script>
         
-        // Variável para armazenar o elemento que tinha foco antes de abrir o modal
-        let lastFocusedElement = null; 
-
         function rolarParaContato() {
             document.getElementById("contato").scrollIntoView({ behavior: "smooth" });
         }
@@ -263,70 +270,19 @@
                     : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>'; // Sun
             }
         }
-
-        /* MELHORIA DE ACESSIBILIDADE: Função do Focus Trap e retorno de foco */
+        
         
         function openLoginModal() {
-            const modal = document.getElementById('loginModal');
-            // Armazena o elemento focado (o botão "Login")
-            lastFocusedElement = document.activeElement; 
-            
-            modal.classList.add('open');
-            
-            // Foca o primeiro campo de formulário
-            document.getElementById('username').focus(); 
-            
-            // Adiciona o listener para fechar com a tecla ESC e para o Focus Trap
-            document.addEventListener('keydown', handleKeydown);
+            document.getElementById('loginModal').classList.add('open');
+            document.getElementById('username').focus();
         }
 
         
         function closeLoginModal() {
-            const modal = document.getElementById('loginModal');
-            modal.classList.remove('open');
-            
-            // Remove o listener de teclado
-            document.removeEventListener('keydown', handleKeydown);
-            
-            // Retorna o foco para o elemento que abriu o modal (se existir)
-            if (lastFocusedElement) {
-                lastFocusedElement.focus();
-                lastFocusedElement = null; 
-            }
+            document.getElementById('loginModal').classList.remove('open');
         }
+
         
-        // Manipulador de eventos de teclado (ESC para fechar e TAB para Focus Trap)
-        function handleKeydown(event) {
-            const modal = document.getElementById('loginModal');
-            if (modal.classList.contains('open')) {
-                if (event.key === 'Escape') {
-                    closeLoginModal();
-                } else if (event.key === 'Tab') {
-                    // Seleciona todos os elementos focáveis dentro do modal
-                    const focusableElements = modal.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])');
-                    
-                    if (focusableElements.length === 0) return; // Evita erro se não houver elementos focáveis
-
-                    const firstElement = focusableElements[0];
-                    const lastElement = focusableElements[focusableElements.length - 1];
-
-                    if (event.shiftKey) { // Shift + Tab (navegação reversa)
-                        if (document.activeElement === firstElement || document.activeElement === modal) {
-                            lastElement.focus();
-                            event.preventDefault();
-                        }
-                    } else { // Tab (navegação normal)
-                        if (document.activeElement === lastElement) {
-                            firstElement.focus();
-                            event.preventDefault();
-                        }
-                    }
-                }
-            }
-        }
-        /* FIM da Melhoria de Acessibilidade */
-
-
         function updateLoginStatus() {
             const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
             const loginBtn = document.getElementById('login-btn-container');
@@ -379,8 +335,7 @@
                 setTimeout(() => {
                     closeLoginModal();
                     updateLoginStatus();
-                    // Alerta removido ou mudado para uma notificação menos intrusiva em produção. Mantido para simulação.
-                    // alert(`Login efetuado com sucesso como: ${user.toUpperCase()}`); 
+                    alert(`Login efetuado com sucesso como: ${user.toUpperCase()}`);
                 }, 1000);
 
             } else {
@@ -411,7 +366,7 @@
             }
             updateIcon(shouldBeDark);
             
-        
+            
             const skipLink = document.querySelector('.sr-only.focus\\:not-sr-only');
             if (skipLink) {
                 skipLink.addEventListener('click', (e) => {
@@ -424,7 +379,6 @@
             const loginModal = document.getElementById('loginModal');
             if (loginModal) {
                 loginModal.addEventListener('click', (e) => {
-                    // Garante que só feche se o clique for exatamente no fundo (o elemento #loginModal)
                     if (e.target.id === 'loginModal') {
                         closeLoginModal();
                     }
