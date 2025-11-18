@@ -13,15 +13,20 @@
         :root {
             --color-primary: #10B981; /* Verde Esmeralda (Claro) */
             --color-secondary: #059669; /* Verde mais escuro (Escuro) */
-            --color-text-light: #1F2937; /* Cinza escuro */
-            --color-text-dark: #626c75; /* Quase branco */
-            --color-bg-light: #F9FAFB;
-            --color-bg-dark: #111827;
+            /* AJUSTADO: Cores de texto mais escuras/claras para melhor contraste no tema claro/escuro */
+            --color-text-light: #0b0e11; /* Cinza escuro (Para o tema claro) */
+            --color-text-dark: #cec4c4; /* Quase branco (Para o tema escuro) */
+            --color-bg-light: #f9fafb; /* Cor de fundo claro (bg-gray-50) */
+            --color-bg-dark: #111827; /* Cor de fundo principal escura (Dark Blue/Gray) */
+            --color-bg-card-dark: #1F2937; /* Cor dos cartões (Dark Gray 800) */
         }
 
         body {
             font-family: 'Inter', sans-serif;
             transition: background-color 0.6s, color 0.6s;
+            /* NOVO: Define o fundo padrão (Light Mode) */
+            background-color: var(--color-bg-light); 
+            color: var(--color-text-light);
         }
 
         /* Navegação por Teclado: Estilo do foco visível (WCAG 2.1.1) */
@@ -66,19 +71,41 @@
             background-position: center;
         }
 
-        /* Contraste e Temas Visuais: Implementação do modo escuro (Dark Mode) */
-        .dark {
-            background-color: var(--color-bg-dark);
-            color: var(--color-text-dark);
+        /* Contraste e Temas Visuais: Implementação do modo escuro (Dark Mode) - AJUSTADO PARA CONSISTÊNCIA */
+        .dark body { 
+            background-color: var(--color-bg-dark) !important; /* Fundo escuro aplicado ao corpo */
+            color: var(--color-text-dark) !important; /* Texto claro aplicado ao corpo */
         }
-        .dark .bg-white { background-color: #1F2937 !important; } 
-        .dark header, .dark footer { background-color: #1F2937 !important; }
-        .dark .text-gray-900 { color: var(--color-text-dark) !important; }
-        .dark .text-gray-600 { color: #91959c !important; }
-        .dark .bg-gray-100 { background-color: #1F2937 !important; } 
-        .dark .text-secondary { color: var(--color-primary) !important; }
+        
+        /* Regras para elementos internos no Dark Mode */
+        .dark .bg-white,
+        .dark header,
+        .dark .modal > div { 
+            background-color: var(--color-bg-card-dark) !important; 
+        } 
+        .dark footer,
+        .dark .dark\:bg-gray-900 { 
+            background-color: var(--color-bg-dark) !important; /* Fundo mais escuro para footer */
+        } 
+        .dark .text-gray-900 { 
+            color: var(--color-text-dark) !important; 
+        }
+        .dark .text-gray-600 { 
+            color: #fdfeff !important; /* Quase branco */
+        }
+        .dark .bg-gray-100 { 
+            background-color: var(--color-bg-card-dark) !important; 
+        } 
+        .dark .text-secondary { 
+            color: var(--color-primary) !important; 
+        }
+        .dark input {
+            background-color: #374151 !important; /* Cor mais escura para inputs */
+            border-color: #4B5563 !important;
+            color: white !important;
+        }
 
-        /* NOVO: Estilo do Modal de Login */
+        /* Estilo do Modal de Login */
         .modal {
             position: fixed;
             top: 0;
@@ -111,7 +138,7 @@
     </script>
 </head>
 
-<body class="bg-gray-50 text-gray-900 min-h-screen transition-colors duration-300">
+<body class="text-gray-900 min-h-screen transition-colors duration-300"> 
     
     <header class="bg-white shadow-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
@@ -120,12 +147,12 @@
             
             <nav aria-label="Navegação Principal" class="flex items-center">
                 
-                <button class="menu-toggle md:hidden p-2 rounded-lg text-gray-900 hover:bg-gray-100" onclick="toggleMenu()" aria-expanded="false" aria-controls="navMenu">
+                <button class="menu-toggle md:hidden p-2 rounded-lg text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" onclick="toggleMenu()" aria-expanded="false" aria-controls="navMenu">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                     <span class="sr-only">Abrir/Fechar Menu Principal</span> 
                 </button>
                 
-                <ul id="navMenu" class="absolute md:static top-full left-0 w-full md:w-auto bg-white md:bg-transparent shadow-lg md:shadow-none transition-all duration-300 ease-in-out md:flex md:space-x-4">
+                <ul id="navMenu" class="absolute md:static top-full left-0 w-full md:w-auto bg-white dark:bg-[#1F2937] md:bg-transparent shadow-lg md:shadow-none transition-all duration-300 ease-in-out md:flex md:space-x-4">
                     <li class="p-4 md:p-0"><a href="index.html" class="active-index text-primary font-semibold hover:underline block md:inline" aria-current="page">Início</a></li>
                     <li class="p-4 md:p-0"><a href="projeto.html" class="active-projeto text-gray-600 hover:text-primary block md:inline">Nossos Projetos</a></li>
                     <li class="p-4 md:p-0"><a href="cadastro.html" class="active-cadastro text-gray-600 hover:text-primary block md:inline">Faça parte você também!</a></li>
@@ -139,7 +166,7 @@
                     </li>
                     </ul>
 
-                <button id="theme-toggle" class="ml-4 p-2 rounded-full text-gray-600 hover:bg-gray-100 focus:ring-2 focus:ring-primary" aria-label="Alternar para modo escuro/claro" onclick="toggleTheme()">
+                <button id="theme-toggle" class="ml-4 p-2 rounded-full text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 focus:ring-2 focus:ring-primary" aria-label="Alternar para modo escuro/claro" onclick="toggleTheme()">
                     <svg id="theme-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                 </button>
             </nav>
@@ -156,12 +183,12 @@
     <main id="main-content" tabindex="-1" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         
         <section class="mb-12">
-            <h2 class="text-3xl font-bold mb-4 border-b-2 border-primary pb-2">Nossa Missão</h2> 
+            <h2 class="text-3xl font-bold mb-4 border-b-2 border-primary pb-2 text-secondary dark:text-primary">Nossa Missão</h2> 
             <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">O Bateria Zero Risco é uma plataforma dedicada a conectar pessoas e empresas que buscam um desenvolvimento sustentável para o fim de baterias e pilhas sem prejudicar o meio ambiente. Nossa meta é criar um ciclo de vida responsável, garantindo que materiais perigosos sejam reciclados de forma segura e ética.</p>
         </section>
         
         <section class="mb-12">
-            <h2 class="text-3xl font-bold mb-8 border-b-2 border-primary pb-2">Nossos Projetos</h2>
+            <h2 class="text-3xl font-bold mb-8 border-b-2 border-primary pb-2 text-secondary dark:text-primary">Nossos Projetos</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100 dark:bg-[#1F2937]">
                     <h3 class="text-xl font-semibold text-secondary dark:text-primary">Coleta Inteligente</h3>
@@ -185,7 +212,7 @@
 
         <section class="py-12 bg-gray-100 dark:bg-[#1F2937] rounded-xl shadow-lg mt-12">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl font-bold mb-10 text-center border-b-2 border-secondary pb-2">Como Funciona o Ciclo Zero Risco</h2>
+                <h2 class="text-3xl font-bold mb-10 text-center border-b-2 border-secondary pb-2 text-secondary dark:text-primary">Como Funciona o Ciclo Zero Risco</h2>
                 <div class="space-y-8 md:space-y-0 md:grid md:grid-cols-3 md:gap-8">
                     
                     <article class="text-center p-4">
@@ -243,15 +270,15 @@
                 <div>
                     <label for="username" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Usuário</label>
                     <input type="text" id="username" name="username" required 
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                            placeholder="Ex: admin, doador, voluntario">
+                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                             placeholder="Ex: admin, doador, voluntario">
                 </div>
                 
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Senha</label>
                     <input type="password" id="password" name="password" required 
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                            placeholder="Ex: admin123, doador123">
+                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                             placeholder="Ex: admin123, doador123">
                 </div>
 
                 <div class="pt-2">
@@ -271,7 +298,6 @@
             const menu = document.getElementById('navMenu');
             const button = document.querySelector('.menu-toggle');
             const isExpanded = button.getAttribute('aria-expanded') === 'true';
-            // Ajustado para usar 'open' em vez de apenas toggle.
             menu.classList.toggle('open'); 
             button.setAttribute('aria-expanded', !isExpanded);
         }
@@ -302,7 +328,7 @@
         }
         
         // ===============================================
-        // INÍCIO DAS NOVAS FUNÇÕES DE LOGIN/LOGOUT E ESTADO
+        // FUNÇÕES DE LOGIN/LOGOUT E ESTADO
         // ===============================================
 
         /** Abre o modal de login e foca no primeiro campo */
@@ -318,18 +344,15 @@
 
         /** Função para alternar a visibilidade de Login e Sair (Logout) no header. */
         function updateLoginStatus() {
-            // Verifica o estado no armazenamento local (simulação de sessão)
             const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
             const loginBtn = document.getElementById('login-btn-container');
             const logoutBtn = document.getElementById('logout-btn-container');
             
             if (loginBtn && logoutBtn) {
                 if (isLoggedIn) {
-                    // Se estiver logado, mostra Sair, esconde Login
                     loginBtn.classList.add('hidden');
                     logoutBtn.classList.remove('hidden');
                 } else {
-                    // Se estiver deslogado, mostra Login, esconde Sair
                     loginBtn.classList.remove('hidden');
                     logoutBtn.classList.add('hidden');
                 }
@@ -338,20 +361,15 @@
         
         /** Lógica para fazer o Logout */
         function logOut() {
-            // 1. Limpa o estado de login
             localStorage.removeItem('isLoggedIn');
             localStorage.removeItem('currentUser');
-            
-            // 2. Atualiza a interface (troca Sair por Login)
-            updateLoginStatus();
-            
-            // 3. Feedback para o usuário
+            updateLoginStatus(); 
             alert("Logout efetuado com sucesso.");
         }
         
-        /** Lógica de validação básica para o trabalho da faculdade (MODIFICADA PARA SALVAR ESTADO) */
+        /** Lógica de validação básica para o login */
         function handleLogin(event) {
-            event.preventDefault(); // Impede o envio real do formulário
+            event.preventDefault(); 
             
             const user = document.getElementById('username').value.toLowerCase();
             const pass = document.getElementById('password').value;
@@ -364,28 +382,23 @@
                 "visitante": "visita123" 
             };
             
-            // Limpa mensagens anteriores
             feedback.textContent = "";
 
             if (validUsers[user] === pass) {
-                // Sucesso
                 feedback.classList.remove('text-red-500');
                 feedback.classList.add('text-primary');
                 feedback.textContent = `Sucesso! Bem-vindo(a), ${user.charAt(0).toUpperCase() + user.slice(1)}.`;
                 
-                // SALVA O ESTADO DE LOGIN
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('currentUser', user);
 
-                // Simulação de redirecionamento/fechamento após um pequeno atraso
                 setTimeout(() => {
                     closeLoginModal();
-                    updateLoginStatus(); // ATUALIZA A BARRA DE NAVEGAÇÃO
+                    updateLoginStatus(); 
                     alert(`Login efetuado com sucesso como: ${user.toUpperCase()}`);
                 }, 1000);
 
             } else {
-                // Falha
                 feedback.classList.remove('text-primary');
                 feedback.classList.add('text-red-500');
                 feedback.textContent = "Usuário ou Senha incorretos. Tente novamente.";
@@ -393,15 +406,16 @@
         }
         
         // ===============================================
-        // FIM DAS NOVAS FUNÇÕES DE LOGIN/LOGOUT E ESTADO
+        // INICIALIZAÇÃO E EVENT LISTENERS
         // ===============================================
 
 
         /** Inicialização do Tema e do Foco de Navegação. */
         document.addEventListener('DOMContentLoaded', () => {
-            // INICIALIZA O ESTADO DO LOGIN AO CARREGAR A PÁGINA
+            // Inicializa o estado do login
             updateLoginStatus(); 
 
+            // Inicializa o tema (Dark/Light)
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const savedTheme = localStorage.getItem('theme');
             const html = document.documentElement;
@@ -430,7 +444,6 @@
             const loginModal = document.getElementById('loginModal');
             if (loginModal) {
                 loginModal.addEventListener('click', (e) => {
-                    // Se o clique for exatamente no fundo (o elemento #loginModal), feche.
                     if (e.target.id === 'loginModal') {
                         closeLoginModal();
                     }
