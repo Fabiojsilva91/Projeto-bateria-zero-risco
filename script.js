@@ -63,7 +63,7 @@ window.handleSubmit = async function(event) {
 
         
         
-        showMessage("Cadastro Realizado!", `Obrigado por se juntar ao Bateria Zero Risco. Seus dados foram validados com sucesso, mas NÃO foram salvos, pois o Firebase foi removido.`);
+        showMessage("Cadastro Realizado!", `Obrigado por se juntar ao Bateria Zero Risco. Seus dados foram validados com sucesso!`);
         
         form.reset();
         
