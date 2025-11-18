@@ -388,7 +388,7 @@ footer {
     outline: none;
 }
 
-/* --- Tabela de Voluntários --- */
+
 #tabelaVoluntarios {
     border-radius: 8px;
     overflow-x: auto;
@@ -502,7 +502,7 @@ footer {
 
     .cta-buttons {
         flex-direction: column;
-        gap: 1rem; /* Reduzido o gap no mobile */
+        gap: 1rem;
     }
     
     .btn-primary, .btn-secondary {

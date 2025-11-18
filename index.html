@@ -7,36 +7,36 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Configuração de fonte padrão e cores para contraste */
+
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
         
         :root {
-            --color-primary: #10B981; /* Verde Esmeralda (Claro) */
-            --color-secondary: #059669; /* Verde mais escuro (Escuro) */
-            /* AJUSTADO: Cores de texto mais escuras/claras para melhor contraste no tema claro/escuro */
-            --color-text-light: #0b0e11; /* Cinza escuro (Para o tema claro) */
-            --color-text-dark: #cec4c4; /* Quase branco (Para o tema escuro) */
-            --color-bg-light: #f9fafb; /* Cor de fundo claro (bg-gray-50) */
-            --color-bg-dark: #111827; /* Cor de fundo principal escura (Dark Blue/Gray) */
-            --color-bg-card-dark: #1F2937; /* Cor dos cartões (Dark Gray 800) */
+            --color-primary: #10B981;
+            --color-secondary: #059669;
+
+            --color-text-light: #0b0e11;
+            --color-text-dark: #cec4c4;
+            --color-bg-light: #f9fafb;
+            --color-bg-dark: #111827;
+            --color-bg-card-dark: #1F2937;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            /* A transição no body já estava definida aqui */
+
             transition: background-color 0.6s, color 0.6s;
-            /* NOVO: Define o fundo padrão (Light Mode) */
+
             background-color: var(--color-bg-light); 
             color: var(--color-text-light);
         }
 
-        /* Navegação por Teclado: Estilo do foco visível (WCAG 2.1.1) */
+
         *:focus {
             outline: 3px solid var(--color-primary);
             outline-offset: 2px;
             border-radius: 4px;
         }
-        .sr-only { /* Mantido para acessibilidade */
+        .sr-only {
             position: absolute;
             width: 1px;
             height: 1px;
@@ -48,14 +48,14 @@
             border-width: 0;
         }
 
-        /* Estilo do Menu Hamburger (mobile) */
+ 
         #navMenu {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out;
         }
         #navMenu.open {
-            max-height: 300px; /* Expande o menu no mobile */
+            max-height: 300px;
         }
         
         @media (min-width: 768px) {
@@ -65,57 +65,57 @@
             }
         }
 
-        /* Hero section custom style */
+
         .hero-home {
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.452), rgba(5, 150, 104, 0.37)), url('css/background.jpg');
             background-size: cover;
             background-position: center;
         }
 
-        /* Contraste e Temas Visuais: Implementação do modo escuro (Dark Mode) - AJUSTADO PARA CONSISTÊNCIA */
+ 
         .dark body { 
-            background-color: var(--color-bg-dark) !important; /* Fundo escuro aplicado ao corpo */
-            color: var(--color-text-dark) !important; /* Texto claro aplicado ao corpo */
+            background-color: var(--color-bg-dark) !important;
+            color: var(--color-text-dark) !important;
         }
         
-        /* Regras para elementos internos no Dark Mode */
+
         .dark .bg-white,
-        .dark header.transition-colors, /* Usa a transição do Tailwind */
+        .dark header.transition-colors,
         .dark .modal > div { 
             background-color: var(--color-bg-card-dark) !important; 
         } 
-        .dark footer.transition-colors, /* Usa a transição do Tailwind */
+        .dark footer.transition-colors,
         .dark .dark\:bg-gray-900 { 
-            background-color: var(--color-bg-dark) !important; /* Fundo mais escuro para footer */
+            background-color: var(--color-bg-dark) !important;
         } 
         .dark .text-gray-900 { 
             color: var(--color-text-dark) !important; 
         }
         .dark .text-gray-600 { 
-            color: #fdfeff !important; /* Quase branco */
+            color: #fdfeff !important;
         }
-        .dark .bg-gray-100.transition-colors { /* Usa a transição do Tailwind */
+        .dark .bg-gray-100.transition-colors {
             background-color: var(--color-bg-card-dark) !important; 
         } 
         .dark .text-secondary { 
             color: var(--color-primary) !important; 
         }
         .dark input {
-            background-color: #374151 !important; /* Cor mais escura para inputs */
+            background-color: #374151 !important;
             border-color: #4B5563 !important;
             color: white !important;
         }
 
-        /* Estilo do Modal de Login */
+
         .modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.75); /* Fundo escuro */
+            background-color: rgba(0, 0, 0, 0.75);
             display: none;
-            z-index: 1000; /* Garante que fique acima de tudo */
+            z-index: 1000;
             align-items: center;
             justify-content: center;
         }
@@ -294,7 +294,6 @@
         </div>
     </div>
     <script>
-        /** Lógica de toggle para o menu de navegação (mobile). */
         function toggleMenu() {
             const menu = document.getElementById('navMenu');
             const button = document.querySelector('.menu-toggle');
@@ -303,7 +302,7 @@
             button.setAttribute('aria-expanded', !isExpanded);
         }
 
-        /** Lógica para alternar o tema (Dark Mode/Alto Contraste). */
+
         function toggleTheme() {
             const html = document.documentElement;
             const isDark = html.classList.contains('dark');
@@ -318,7 +317,7 @@
             updateIcon(!isDark);
         }
 
-        /** Atualiza o ícone do botão de tema de acordo com o estado. */
+
         function updateIcon(isDark) {
             const iconContainer = document.getElementById('theme-icon');
             if (iconContainer) {
@@ -328,22 +327,15 @@
             }
         }
         
-        // ===============================================
-        // FUNÇÕES DE LOGIN/LOGOUT E ESTADO
-        // ===============================================
-
-        /** Abre o modal de login e foca no primeiro campo */
         function openLoginModal() {
             document.getElementById('loginModal').classList.add('open');
-            document.getElementById('username').focus(); // Foca no campo usuário para acessibilidade
+            document.getElementById('username').focus();
         }
 
-        /** Fecha o modal de login */
         function closeLoginModal() {
             document.getElementById('loginModal').classList.remove('open');
         }
 
-        /** Função para alternar a visibilidade de Login e Sair (Logout) no header. */
         function updateLoginStatus() {
             const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
             const loginBtn = document.getElementById('login-btn-container');
@@ -360,7 +352,6 @@
             }
         }
         
-        /** Lógica para fazer o Logout */
         function logOut() {
             localStorage.removeItem('isLoggedIn');
             localStorage.removeItem('currentUser');
@@ -368,7 +359,7 @@
             alert("Logout efetuado com sucesso.");
         }
         
-        /** Lógica de validação básica para o login */
+
         function handleLogin(event) {
             event.preventDefault(); 
             
@@ -406,17 +397,11 @@
             }
         }
         
-        // ===============================================
-        // INICIALIZAÇÃO E EVENT LISTENERS
-        // ===============================================
-
-
-        /** Inicialização do Tema e do Foco de Navegação. */
         document.addEventListener('DOMContentLoaded', () => {
-            // Inicializa o estado do login
+
             updateLoginStatus(); 
 
-            // Inicializa o tema (Dark/Light)
+
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const savedTheme = localStorage.getItem('theme');
             const html = document.documentElement;
@@ -441,7 +426,6 @@
                 });
             }
             
-            // Fechar Modal ao clicar fora
             const loginModal = document.getElementById('loginModal');
             if (loginModal) {
                 loginModal.addEventListener('click', (e) => {

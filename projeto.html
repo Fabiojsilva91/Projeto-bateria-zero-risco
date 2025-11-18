@@ -7,36 +7,34 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Configuração de fonte padrão e cores para contraste */
+
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
         
         :root {
-            --color-primary: #10B981; /* Verde Esmeralda (Claro) */
-            --color-secondary: #059669; /* Verde mais escuro (Escuro) */
-            --color-text-light: #0b0e11; /* Cinza escuro */
-            --color-text-dark: #e5e7eb; /* Cinza claro/Quase branco (Tailwind Gray-200) */
-            --color-bg-light: #f9fafb; /* Cor da classe Tailwind bg-gray-50 */
-            --color-bg-dark: #111827; /* Cor de fundo escura (Dark Blue/Gray 900) */
-            --color-bg-card-dark: #1F2937; /* Cor dos cartões (Dark Gray 800) */
+            --color-primary: #10B981;
+            --color-secondary: #059669;
+            --color-text-light: #0b0e11;
+            --color-text-dark: #e5e7eb; 
+            --color-bg-light: #f9fafb;
+            --color-bg-dark: #111827;
+            --color-bg-card-dark: #1F2937;
         }
 
         body {
             font-family: 'Inter', sans-serif;
             transition: background-color 0.5s, color 0.5s;
-            /* Fundo padrão (Light Mode) */
             background-color: var(--color-bg-light);
             color: var(--color-text-light);
         }
 
-        /* Navegação por Teclado: Estilo do foco visível (WCAG 2.1.1) */
-        /* Aplicado a todos os elementos interativos para acessibilidade */
+
         a:focus, button:focus, input:focus {
             outline: 3px solid var(--color-primary);
             outline-offset: 2px;     
             border-radius: 4px;
         }
 
-        .sr-only { /* Mantido para acessibilidade */
+        .sr-only {
             position: absolute;
             width: 1px;
             height: 1px;
@@ -48,14 +46,14 @@
             border-width: 0;
         }
 
-        /* Estilo do Menu Hamburger (mobile) */
+
         #navMenu {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out;
         }
         #navMenu.open {
-            max-height: 300px; /* Expande o menu no mobile */
+            max-height: 300px;
         }
         
         @media (min-width: 768px) {
@@ -65,7 +63,6 @@
             }
         }
 
-        /* Dark Mode - Regras para o corpo e elementos específicos */
         .dark body {
             background-color: var(--color-bg-dark); 
             color: var(--color-text-dark);
@@ -75,13 +72,13 @@
         .dark header { background-color: var(--color-bg-card-dark) !important; } 
         .dark footer { background-color: var(--color-bg-dark) !important; } 
         .dark .text-gray-900 { color: var(--color-text-dark) !important; }
-        .dark .text-gray-600 { color: #d1d5db !important; } /* Gray-300 */
+        .dark .text-gray-600 { color: #d1d5db !important; }
         .dark .bg-gray-100 { background-color: var(--color-bg-card-dark) !important; } 
         .dark .text-secondary { color: var(--color-primary) !important; }
-        .dark .text-gray-700 { color: #d1d5db !important; } /* Gray-300 para labels */
+        .dark .text-gray-700 { color: #d1d5db !important; }
 
 
-        /* Estilo do Modal de Login */
+
         .modal {
             position: fixed;
             top: 0;
@@ -255,9 +252,7 @@
 
     <script>
         
-        /**
-         * 1. Funções de Tema e Ícone
-         */
+
         function updateIcon(isDark) {
             const iconContainer = document.getElementById('theme-icon');
             if (iconContainer) {
@@ -282,9 +277,7 @@
             }
         }
 
-        /**
-         * 2. Funções de Menu (Mobile)
-         */
+
         function toggleMenu() {
             const menu = document.getElementById('navMenu');
             const button = document.getElementById('menu-toggle-btn');
@@ -294,9 +287,7 @@
             button.setAttribute('aria-expanded', !isExpanded);
         }
 
-        /**
-         * 3. Funções de Modal de Login
-         */
+
         function openLoginModal() {
             document.getElementById('loginModal').classList.add('open');
             document.getElementById('username').focus();
@@ -304,7 +295,6 @@
 
         function closeLoginModal() {
             document.getElementById('loginModal').classList.remove('open');
-            // Limpar feedback e campos
             document.getElementById('loginFeedback').textContent = "";
             document.getElementById('loginForm').reset(); 
         }
@@ -359,7 +349,6 @@
                 setTimeout(() => {
                     closeLoginModal();
                     updateLoginStatus();
-                    // alert(`Login efetuado com sucesso como: ${user.toUpperCase()}`);
                 }, 1000);
 
             } else {
@@ -369,12 +358,10 @@
             }
         }
         
-        /**
-         * 4. Inicialização e Event Listeners (DOMContentLoaded)
-         */
+
         document.addEventListener('DOMContentLoaded', () => {
         
-            // Aplica o tema salvo ou o tema do sistema
+
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const savedTheme = localStorage.getItem('theme');
             const html = document.documentElement;
@@ -391,24 +378,24 @@
             }
             updateIcon(shouldBeDark);
             
-            // Atualiza o status de Login
+            
             updateLoginStatus(); 
 
-            // --- Event Listeners ---
+            
 
-            // Tema
+            
             document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
             
-            // Menu Mobile
+           
             document.getElementById('menu-toggle-btn').addEventListener('click', toggleMenu);
 
-            // Login / Modal
+            
             document.getElementById('open-login-btn')?.addEventListener('click', openLoginModal);
             document.getElementById('close-modal-btn')?.addEventListener('click', closeLoginModal);
             document.getElementById('loginForm')?.addEventListener('submit', handleLogin);
             document.getElementById('logout-btn')?.addEventListener('click', logOut);
 
-            // Fechar Modal ao clicar fora
+
             const loginModal = document.getElementById('loginModal');
             if (loginModal) {
                 loginModal.addEventListener('click', (e) => {
@@ -418,7 +405,6 @@
                 });
             }
             
-            // Navegação por Teclado: Foco no conteúdo principal
             document.querySelector('.sr-only.focus\\:not-sr-only')?.addEventListener('click', (e) => {
                 e.preventDefault();
                 document.getElementById('main-content').focus();

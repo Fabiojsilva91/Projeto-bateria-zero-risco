@@ -14,12 +14,12 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
         
         :root {
-            --color-primary: #10B981; /* green-500 */
-            --color-secondary: #059669; /* green-600 */
-            --color-text-light: #1F2937; /* gray-800 */
-            --color-text-dark: #F9FAFB; /* gray-50 */
-            --color-bg-light: #F9FAFB; /* gray-50 */
-            --color-bg-dark: #121212; /* Cor mais escura para o fundo do body */
+            --color-primary: #10B981;
+            --color-secondary: #059669;
+            --color-text-light: #1F2937;
+            --color-text-dark: #F9FAFB;
+            --color-bg-light: #F9FAFB;
+            --color-bg-dark: #121212;
         }
 
         body {
@@ -27,8 +27,7 @@
             transition: background-color 0.3s, color 0.3s;
         }
 
-        
-        /* Ajuste do foco para melhor acessibilidade */
+
         *:focus {
             outline: 3px solid var(--color-primary);
             outline-offset: 2px;
@@ -46,8 +45,7 @@
             border-width: 0;
         }
 
-        
-        /* Estilos do Menu para Mobile */
+
         #navMenu {
             max-height: 0;
             overflow: hidden;
@@ -64,72 +62,65 @@
             }
         }
         
-        /* Estilos da Seção Hero */
         .hero-cadastro {
             background: linear-gradient(135deg, rgba(5, 150, 105, 0.9), rgba(16, 185, 129, 0.8)), url('https://placehold.co/1200x500/059669/FFFFFF?text=Seja+Um+Parceiro+Sustentável');
             background-size: cover;
             background-position: center;
         }
         
-        /* === AJUSTES DO DARK MODE === */
-        
-        /* Inputs, Selects e Textareas */
         .dark input:not([type="checkbox"]), .dark select, .dark textarea {
-            background-color: #374151 !important; /* gray-700 */
+            background-color: #374151 !important;
             color: var(--color-text-dark) !important;
-            border-color: #4B5563 !important; /* gray-600 */
+            border-color: #4B5563 !important;
         }
 
-        /* Fundo do Body e Cor de Texto Global */
+
         .dark {
-            background-color: var(--color-bg-dark); /* Fundo muito escuro */
-            color: var(--color-text-dark); /* Texto claro */
+            background-color: var(--color-bg-dark);
+            color: var(--color-text-dark);
         }
         
-        /* Sobrescrever a classe bg-gray-50 do body (que o body usa por padrão) */
+
         .dark .bg-gray-50 {
              background-color: var(--color-bg-dark) !important; 
         }
 
-        /* Elementos com fundo branco no Light Mode */
+
         .dark .bg-white { 
-            background-color: #1F2937 !important; /* gray-800 */
+            background-color: #1F2937 !important;
         } 
         
-        /* Header e Footer (que usavam bg-white/bg-gray-800) */
         .dark header, .dark footer { 
-            background-color: #1F2937 !important; /* gray-800 */
+            background-color: #1F2937 !important;
         }
         
-        /* Cores de Texto Padrão (Light Mode) */
         .dark .text-gray-900 { 
             color: var(--color-text-dark) !important; 
-        } /* Títulos, etc. */
+        }
         .dark .text-gray-700 { 
-            color: #D1D5DB !important; /* gray-300 */ 
-        } /* Labels de Formulário */
+            color: #D1D5DB !important;
+        }
         .dark .text-gray-600 { 
-            color: #9CA3AF !important; /* gray-400 */ 
-        } /* Textos secundários, links de navegação */
+            color: #9CA3AF !important;
+        }
         
-        /* Elementos com fundo cinza claro */
+
         .dark .bg-gray-100 { 
-            background-color: #1F2937 !important; /* gray-800 */
+            background-color: #1F2937 !important;
         } 
         
-        /* Aba Ativa (Business/Individual) - Ajuste a cor de fundo para dark mode, mantendo a borda/texto primário */
+
         .dark .active-tab-style { 
-            background-color: #374151 !important; /* gray-700 */
+            background-color: #374151 !important;
             color: var(--color-primary) !important;
         }
 
-        /* Estilo da Tabela de Seleção (Individual/Business) - o estilo da aba ativa é aplicado via JS, mas o hover/inativo está aqui */
+
         .dark .inline-flex button {
             transition: background-color 0.2s, color 0.2s;
         }
 
 
-        /* Estilos dos Modais */
         .modal {
             position: fixed;
             top: 0;
